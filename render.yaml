@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: dmhs-pwd
+    runtime: static
+    staticPublishPath: .
+    buildCommand: "echo 'no build needed'"
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

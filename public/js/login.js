@@ -3,7 +3,7 @@ const loginMessage = document.querySelector('#login-message');
 
 const status = document.querySelector('#status');
 const loginSection = document.querySelector('#login-section');
-// const logoutButton = document.querySelector('#logout-button');
+const logoutButton = document.querySelector('#logout-button');
 
 async function checkAuthState() {
     try {

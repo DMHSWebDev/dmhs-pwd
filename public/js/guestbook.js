@@ -2,8 +2,8 @@
 // Everything a user typed goes in with textContent or .value, never innerHTML.
 
 const gbForm = document.querySelector('#guestbook-form');
-const gbName = document.querySelector('#name');
 const gbMsg = document.querySelector('#msg');
+const gbWebsite = document.querySelector('#website'); // the honeypot
 const gbCount = document.querySelector('#msg-count');
 const gbPostButton = document.querySelector('#post-button');
 const gbFormError = document.querySelector('#form-error');
@@ -14,6 +14,9 @@ const gbEntryCount = document.querySelector('#entry-count');
 
 const MSG_MAX = 280;
 const timeFormat = new Intl.RelativeTimeFormat(undefined, { numeric: 'auto' });
+
+// Who is looking at the page, from /api/whoami
+let currentUser = null;
 
 // "just now", "5 minutes ago", "yesterday", or a date for older messages
 function timeAgo(isoDate) {
@@ -74,11 +77,18 @@ function renderEntry(entry, isNew) {
     msg.className = 'gb-msg';
     msg.textContent = entry.msg;
 
-    const actions = document.createElement('div');
-    actions.className = 'gb-actions';
-    showActions(actions, li, entry);
+    body.append(head, msg);
 
-    body.append(head, msg, actions);
+    // Same rule as canModify on the server. Hiding the buttons only keeps
+    // the page tidy: the server's 403 is what actually protects each message.
+    const canEdit = entry.authorId === currentUser.userId || currentUser.role === 'admin';
+    if (canEdit) {
+        const actions = document.createElement('div');
+        actions.className = 'gb-actions';
+        showActions(actions, li, entry);
+        body.append(actions);
+    }
+
     li.append(avatar, body);
     return li;
 }
@@ -156,7 +166,7 @@ async function saveEdit(entry, newMsg) {
         const response = await fetch(`/api/guestbook/${encodeURIComponent(entry.id)}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: entry.name, msg: newMsg })
+            body: JSON.stringify({ msg: newMsg })
         });
         if (!response.ok) {
             const data = await response.json().catch(() => ({}));
@@ -197,6 +207,10 @@ async function loadMessages(newId) {
         if (!response.ok) {
             gbListError.textContent = entries.error || 'Could not load messages.';
             return;
+        }
+
+        if (!currentUser) {
+            currentUser = await (await fetch('/api/whoami')).json();
         }
 
         gbList.replaceChildren();
@@ -246,7 +260,10 @@ gbForm.addEventListener('submit', async (e) => {
         const response = await fetch('/api/guestbook', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: gbName.value, msg: gbMsg.value })
+            body: JSON.stringify({
+                msg: gbMsg.value,
+                website: gbWebsite.value
+            })
         });
         const data = await response.json().catch(() => ({}));
 
@@ -255,7 +272,7 @@ gbForm.addEventListener('submit', async (e) => {
             return; // keep what the user typed
         }
 
-        gbMsg.value = ''; // keep the name for the next message
+        gbMsg.value = '';
         updateCount();
         loadMessages(data.id);
     } catch (err) {
@@ -263,11 +280,6 @@ gbForm.addEventListener('submit', async (e) => {
     } finally {
         gbPostButton.disabled = false;
     }
-});
-
-// Fill in the name with the username, if the box is still empty
-document.addEventListener('auth-change', (e) => {
-    if (e.detail && !gbName.value) gbName.value = e.detail.username;
 });
 
 loadMessages();

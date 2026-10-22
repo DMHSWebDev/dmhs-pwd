@@ -29,4 +29,9 @@ function tick() {
   setTimeout(tick, deleting ? 35 : 60);
 }
 
-tick();
+// People who turn on "reduce motion" get the message without the typing
+if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  typedEl.textContent = messages[0];
+} else {
+  tick();
+}

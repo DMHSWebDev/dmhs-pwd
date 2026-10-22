@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/site.css">
+    <script src="/js/theme.js"></script>
 </head>
 
 <body>
@@ -33,9 +34,11 @@
                 <form class="gb-composer stack" id="guestbook-form">
                     <h2 class="section-title">New message</h2>
 
-                    <label class="field">Name
-                        <input class="input" id="name" type="text" name="name" autocomplete="off" placeholder="Your name" maxlength="40" required>
-                    </label>
+                    <!-- Honeypot: hidden from people, bots fill it in -->
+                    <div class="hp-field" aria-hidden="true">
+                        <label for="website">Leave this field empty</label>
+                        <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+                    </div>
 
                     <label class="field">Message
                         <textarea class="input" id="msg" name="msg" maxlength="280" autocomplete="off" placeholder="Say hi&hellip;" required></textarea>

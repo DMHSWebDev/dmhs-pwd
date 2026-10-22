@@ -50,6 +50,10 @@ document.querySelector('#site-nav').innerHTML = `
         </div>
 
         <div class="nav-account">
+            <button class="theme-toggle" id="theme-toggle" type="button">
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+            </button>
             <button class="nav-login" id="account-button" type="button" aria-expanded="false" aria-controls="account-panel">Log in</button>
 
             <div class="account-panel" id="account-panel" hidden>
@@ -82,6 +86,40 @@ document.querySelector('#site-nav').innerHTML = `
         </div>
     </nav>
 `;
+
+// "Skip to main content" link for keyboard and screen reader users
+const mainContent = document.querySelector('main');
+if (mainContent) {
+    mainContent.id = mainContent.id || 'main';
+    mainContent.tabIndex = -1; // lets the skip link move focus here
+    const skipLink = document.createElement('a');
+    skipLink.className = 'skip-link';
+    skipLink.href = '#' + mainContent.id;
+    skipLink.textContent = 'Skip to main content';
+    document.body.prepend(skipLink);
+}
+
+// Light / dark toggle. theme.js already picked the starting theme.
+const themeToggle = document.querySelector('#theme-toggle');
+
+function labelThemeToggle() {
+    const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+    themeToggle.setAttribute('aria-label', `Switch to ${next} mode`);
+    themeToggle.title = `Switch to ${next} mode`;
+}
+
+themeToggle.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = next;
+    try {
+        localStorage.setItem('theme', next);
+    } catch (err) {
+        // Can't save it (private browsing); it still works until the page closes
+    }
+    labelThemeToggle();
+    document.dispatchEvent(new Event('theme-change'));
+});
+labelThemeToggle();
 
 const navToggle = document.querySelector('#nav-toggle');
 const navMenu = document.querySelector('#nav-menu');

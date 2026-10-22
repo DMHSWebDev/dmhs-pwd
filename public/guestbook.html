@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guestbook — DMHS PWD</title>
+    <link rel="icon" type="image/png" href="/assets/doherty-d.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+
+<body>
+    <canvas id="grid" aria-hidden="true"></canvas>
+    <div class="scanline" aria-hidden="true"></div>
+    <header class="site-nav" id="site-nav"></header>
+
+    <div class="page">
+        <main class="wrap wide">
+            <header class="brand">
+                <span class="prompt">dmhs@pwd</span><span class="colon">:</span><span class="path">~/guestbook</span><span class="dollar">$</span>
+            </header>
+
+            <div class="page-head">
+                <p class="kicker">Projects</p>
+                <h1 class="title">Guestbook</h1>
+                <p class="lede">Leave a note for the class. Keep it friendly &mdash; messages are shared with everyone who&rsquo;s logged in.</p>
+            </div>
+
+            <div class="gb-layout">
+                <form class="gb-composer stack" id="guestbook-form">
+                    <h2 class="section-title">New message</h2>
+
+                    <label class="field">Name
+                        <input class="input" id="name" type="text" name="name" autocomplete="off" placeholder="Your name" maxlength="40" required>
+                    </label>
+
+                    <label class="field">Message
+                        <textarea class="input" id="msg" name="msg" maxlength="280" autocomplete="off" placeholder="Say hi&hellip;" required></textarea>
+                    </label>
+
+                    <div class="gb-composer-foot">
+                        <span class="gb-hint"><kbd>Ctrl</kbd> + <kbd>Enter</kbd> to post</span>
+                        <span class="gb-count" id="msg-count">0 / 280</span>
+                    </div>
+
+                    <p class="notice" id="form-error" role="alert"></p>
+                    <button class="btn" id="post-button" type="submit">Post message</button>
+                </form>
+
+                <section aria-labelledby="feed-title">
+                    <div class="gb-feed-head">
+                        <h2 class="section-title" id="feed-title">Messages</h2>
+                        <span class="chip" id="entry-count" hidden></span>
+                    </div>
+                    <p class="notice" id="list-error" role="alert"></p>
+                    <p class="loading" id="list-loading">loading messages<span class="cursor" aria-hidden="true">&#9608;</span></p>
+                    <ul class="gb-list" id="guestbook-list"></ul>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/nav.js"></script>
+    <script src="/js/grid.js"></script>
+    <script src="/js/guestbook.js"></script>
+</body>
+
+</html>

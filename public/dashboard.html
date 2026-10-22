@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard — DMHS PWD</title>
+    <link rel="icon" type="image/png" href="/assets/doherty-d.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+
+<body>
+    <canvas id="grid" aria-hidden="true"></canvas>
+    <div class="scanline" aria-hidden="true"></div>
+    <header class="site-nav" id="site-nav"></header>
+
+    <div class="page">
+        <main class="wrap wide">
+            <header class="brand">
+                <span class="prompt">dmhs@admin</span><span class="colon">:</span><span class="path">~/dashboard</span><span class="dollar">$</span>
+            </header>
+
+            <div class="page-head">
+                <p class="kicker">Admin only</p>
+                <h1 class="title">Dashboard</h1>
+                <p class="lede">Keep an eye on the guestbook and clean it up when you need to.</p>
+            </div>
+
+            <section class="card-section" aria-labelledby="stats-heading">
+                <h2 class="section-title" id="stats-heading">Guestbook</h2>
+                <div class="stats">
+                    <div class="stat">
+                        <span class="link-tag">Messages</span>
+                        <span class="stat-value" id="stat-count">&ndash;</span>
+                    </div>
+                    <div class="stat">
+                        <span class="link-tag">Latest post</span>
+                        <span class="stat-value" id="stat-latest">&ndash;</span>
+                    </div>
+                    <div class="stat">
+                        <span class="link-tag">Signed in as</span>
+                        <span class="stat-value" id="stat-user">&ndash;</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card-section" aria-labelledby="danger-heading">
+                <h2 class="section-title" id="danger-heading">Danger zone</h2>
+                <div class="danger-zone">
+                    <div>
+                        <strong>Delete all messages</strong>
+                        <p>Removes every guestbook message. This can&rsquo;t be undone.</p>
+                    </div>
+                    <button class="btn btn-danger" id="delete-button" type="button">Delete all</button>
+                </div>
+                <p class="notice" id="dashboard-message" role="status"></p>
+            </section>
+        </main>
+    </div>
+
+    <script src="/js/nav.js"></script>
+    <script src="/js/grid.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+
+</html>

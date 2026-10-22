@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create an Account — DMHS PWD</title>
+    <link rel="icon" type="image/png" href="/assets/doherty-d.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+
+<body>
+    <canvas id="grid" aria-hidden="true"></canvas>
+    <div class="scanline" aria-hidden="true"></div>
+    <header class="site-nav" id="site-nav"></header>
+
+    <div class="page">
+        <main class="wrap narrow">
+            <header class="brand">
+                <span class="prompt">dmhs@pwd</span><span class="colon">:</span><span class="path">~/register</span><span class="dollar">$</span>
+            </header>
+
+            <div class="page-head">
+                <p class="kicker">Join the class site</p>
+                <h1 class="title">Create an account</h1>
+            </div>
+
+            <form class="stack" id="register-form">
+                <label class="field">Username
+                    <input class="input" id="username" autocomplete="username" minlength="3" type="text" maxlength="20" required>
+                </label>
+
+                <label class="field">Password (at least 8 characters)
+                    <input class="input" id="password" type="password" autocomplete="new-password" minlength="8" maxlength="72" required>
+                </label>
+
+                <label class="field">Confirm password
+                    <input class="input" id="confirm" type="password" autocomplete="new-password" required>
+                </label>
+
+                <p class="notice" id="register-message" role="alert"></p>
+                <button class="btn" type="submit">Create account</button>
+            </form>
+
+            <p class="form-note">Already have an account? <a href="/" data-open-login>Log in</a></p>
+        </main>
+    </div>
+
+    <script src="/js/nav.js"></script>
+    <script src="/js/grid.js"></script>
+    <script src="/js/register.js"></script>
+</body>
+
+</html>

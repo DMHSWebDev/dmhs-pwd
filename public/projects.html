@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects — DMHS PWD</title>
+    <link rel="icon" type="image/png" href="/assets/doherty-d.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+
+<body>
+    <canvas id="grid" aria-hidden="true"></canvas>
+    <div class="scanline" aria-hidden="true"></div>
+    <header class="site-nav" id="site-nav"></header>
+
+    <div class="page">
+        <main class="wrap wide">
+            <header class="brand">
+                <span class="prompt">dmhs@pwd</span><span class="colon">:</span><span class="path">~/projects</span><span class="dollar">$</span>
+            </header>
+
+            <div class="page-head">
+                <p class="kicker">Portfolio</p>
+                <h1 class="title">My Projects</h1>
+                <p class="lede">A collection of frontend work and server extensions.</p>
+            </div>
+
+            <section class="card-section" aria-labelledby="live-heading">
+                <h2 class="section-title" id="live-heading">Live projects</h2>
+                <nav class="links project-links" aria-label="Projects">
+                    <a class="link-card" href="/guestbook">
+                        <span class="link-title">Guestbook</span>
+                        <span class="link-tag">shared messages &middot; login</span>
+                    </a>
+                    <a class="link-card" href="/space">
+                        <span class="link-title">NASA Space</span>
+                        <span class="link-tag">picture of the day</span>
+                    </a>
+                    <div class="link-card disabled">
+                        <span class="link-title">Landing Page Examples</span>
+                        <span class="link-tag">coming soon</span>
+                    </div>
+                </nav>
+            </section>
+
+            <section class="card-section" id="server-extensions" aria-labelledby="server-extensions-heading">
+                <h2 class="section-title" id="server-extensions-heading">Server extensions</h2>
+                <div class="feature-groups">
+                    <section class="feature-group" aria-labelledby="auth-extensions-heading">
+                        <h3 id="auth-extensions-heading">Authentication and Access</h3>
+                        <ul class="tier-features">
+                            <li>Password-based login checked against a server-side environment variable</li>
+                            <li>Session-based authentication with optional seven-day "Remember me"</li>
+                            <li>Logout destroys the active session</li>
+                            <li>Dashboard, guestbook page, and guestbook API require login</li>
+                            <li>Login status endpoint for the frontend</li>
+                        </ul>
+                    </section>
+
+                    <section class="feature-group" aria-labelledby="guestbook-extensions-heading">
+                        <h3 id="guestbook-extensions-heading">Guestbook API</h3>
+                        <ul class="tier-features">
+                            <li>Guestbook entries persist in a JSON data file</li>
+                            <li>Authenticated endpoints list, add, and clear entries</li>
+                            <li>Validates names and messages, normalizes whitespace, and filters profanity</li>
+                            <li>Each entry receives a unique ID and timestamp; storage keeps the latest 50</li>
+                        </ul>
+                    </section>
+
+                    <section class="feature-group" aria-labelledby="operations-extensions-heading">
+                        <h3 id="operations-extensions-heading">Monitoring and Request Controls</h3>
+                        <ul class="tier-features">
+                            <li>Rate limit of 100 requests per IP every 10 seconds</li>
+                            <li>Request method and path logged to the console and a server log file</li>
+                            <li>Visitor count for the home and projects pages, exposed through a stats endpoint</li>
+                            <li>Static pages served with extensionless HTML URLs</li>
+                        </ul>
+                    </section>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/js/nav.js"></script>
+    <script src="/js/grid.js"></script>
+</body>
+
+</html>

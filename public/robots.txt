@@ -1,0 +1,5 @@
+# Search engines may crawl the whole site, except the data behind it
+User-agent: *
+Disallow: /api/
+
+Sitemap: https://dmhspwd.org/sitemap.xml

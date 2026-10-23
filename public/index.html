@@ -4,13 +4,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doherty Memorial High School — PWD</title>
-    <meta name="description" content="Doherty Memorial High School — Programming & Web Development">
-    <link rel="icon" type="image/png" href="/assets/doherty-d.png">
+    <title>Programming &amp; Web Development CTE | Doherty Memorial High School</title>
+    <meta name="description" content="Doherty Memorial High School&#39;s Programming &amp; Web Development CTE program in Worcester, MA. Our students design and build free websites for local businesses, nonprofits and clubs.">
+    <link rel="canonical" href="https://dmhspwd.org/">
+    <meta name="theme-color" content="#0b0809">
+
+    <!-- Link previews (Google Classroom, Teams, texts, social media) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="DMHS Programming &amp; Web Development">
+    <meta property="og:title" content="Programming &amp; Web Development CTE | Doherty Memorial High School">
+    <meta property="og:description" content="Doherty Memorial High School&#39;s Programming &amp; Web Development CTE program in Worcester, MA. Our students design and build free websites for local businesses, nonprofits and clubs.">
+    <meta property="og:url" content="https://dmhspwd.org/">
+    <meta property="og:image" content="https://dmhspwd.org/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Doherty Memorial High School Programming &amp; Web Development, a Career &amp; Technical Education program in Worcester, MA">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/site.css">
+
+    <!-- Structured data: tells search engines who we are and what we offer -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "HighSchool",
+                "@id": "https://dmhspwd.org/#school",
+                "name": "Doherty Memorial High School",
+                "logo": "https://dmhspwd.org/assets/logo-512.png",
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Worcester",
+                    "addressRegion": "MA",
+                    "addressCountry": "US"
+                }
+            },
+            {
+                "@type": "EducationalOccupationalProgram",
+                "@id": "https://dmhspwd.org/#program",
+                "name": "Programming & Web Development",
+                "description": "A Career and Technical Education (CTE) program at Doherty Memorial High School in Worcester, Massachusetts, where students learn to design, code and launch real websites.",
+                "url": "https://dmhspwd.org/",
+                "image": "https://dmhspwd.org/assets/og-image.png",
+                "educationalProgramMode": "in-person",
+                "provider": { "@id": "https://dmhspwd.org/#school" }
+            },
+            {
+                "@type": "WebSite",
+                "@id": "https://dmhspwd.org/#website",
+                "url": "https://dmhspwd.org/",
+                "name": "DMHS Programming & Web Development",
+                "publisher": { "@id": "https://dmhspwd.org/#school" }
+            },
+            {
+                "@type": "Service",
+                "name": "Free Web Design Services",
+                "serviceType": "Website design and development",
+                "description": "Doherty Memorial High School Programming & Web Development students design and build websites for local businesses, nonprofits, clubs and community members, at no cost.",
+                "url": "https://dmhspwd.org/#services",
+                "provider": { "@id": "https://dmhspwd.org/#school" },
+                "areaServed": { "@type": "City", "name": "Worcester, Massachusetts" },
+                "offers": [
+                    { "@type": "Offer", "name": "Showcase", "price": "0", "priceCurrency": "USD", "description": "A clean, professional website with a few pages, a photo gallery and contact links." },
+                    { "@type": "Offer", "name": "Storyteller", "price": "0", "priceCurrency": "USD", "description": "Everything in Showcase, plus a blog, a contact form and a dashboard to update the site yourself." },
+                    { "@type": "Offer", "name": "Storefront", "price": "0", "priceCurrency": "USD", "description": "Everything in Storyteller, plus an online store, secure checkout and customer accounts." }
+                ]
+            }
+        ]
+    }
+    </script>
     <script src="/js/theme.js"></script>
 </head>
 
@@ -29,6 +96,11 @@
             <section class="hero">
                 <p class="kicker">Doherty Memorial High School</p>
                 <h1 class="title">Programming &amp; Web Development</h1>
+                <p class="lede">
+                    A Career &amp; Technical Education (CTE) program at Doherty Memorial High School
+                    in Worcester, Massachusetts. Students learn to design, code and launch real
+                    websites, and build them for free for our community.
+                </p>
 
                 <div class="status">
                     <span class="dot" aria-hidden="true"></span>
@@ -76,10 +148,10 @@
 
             <div class="services-intro">
                 <p class="kicker">Free for our community</p>
-                <h2 class="title" id="services-title">Web Design Services</h2>
+                <h2 class="title" id="services-title">Free Web Design Services</h2>
                 <p class="lede">
-                    Our students design and build real websites for local businesses, clubs,
-                    and people in the community &mdash; at no cost. You get a website. They get
+                    Our students design and build real websites for local businesses, nonprofits,
+                    clubs, and people in the Worcester community &mdash; at no cost. You get a website. They get
                     real-world experience for their portfolios.
                 </p>
             </div>

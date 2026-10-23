@@ -14,6 +14,7 @@ const express = require('express');
 const session = require('express-session');
 const helmet = require('helmet');
 
+const { canonicalHost } = require('./middleware/canonicalHost');
 const { requestLogger } = require('./middleware/logger');
 const { limiter } = require('./middleware/limiters');
 const { notFound, errorHandler } = require('./middleware/errors');
@@ -31,6 +32,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 // Trust the X-Forwarded-For header set by hosts like Render, so the rate
 // limiter sees each visitor's real IP instead of the proxy's
 app.set('trust proxy', 1);
+app.use(canonicalHost);
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {

@@ -7,7 +7,7 @@
 document.querySelector('#site-nav').innerHTML = `
     <nav class="nav-inner" aria-label="Main">
         <a class="nav-brand" href="/">
-            <img src="/assets/doherty-d.png" alt="" width="88" height="113">
+            <img src="/assets/logo-nav.png" alt="" width="77" height="104">
             <span class="prompt-text"><span class="prompt">dmhs@pwd</span><span class="colon">:</span><span class="path">~</span><span class="dollar">$</span></span>
         </a>
 

@@ -1273,3 +1273,6 @@ main:focus { outline: none; }
     height: 1px;
     overflow: hidden;
 }
+
+/* Program description under the home page title */
+.hero .lede { margin: -16px 0 24px; }

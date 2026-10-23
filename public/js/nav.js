@@ -14,6 +14,7 @@ document.querySelector('#site-nav').innerHTML = `
         <div class="nav-menu" id="nav-menu">
             <a class="nav-link" href="/">Home</a>
             <a class="nav-link" href="/#services">Services</a>
+            <a class="nav-link" href="/news">News</a>
 
             <div class="dropdown">
                 <button class="nav-trigger" id="projects-trigger" type="button" aria-expanded="false" aria-controls="projects-panel">

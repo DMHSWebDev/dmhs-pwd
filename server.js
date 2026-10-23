@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 // Stop immediately if any required setting is missing
-const REQUIRED_ENV = ['SESSION_SECRET', 'NASA_API_KEY', 'ADMIN_USERNAME', 'ADMIN_PASSWORD'];
+const REQUIRED_ENV = ['SESSION_SECRET', 'NASA_API_KEY', 'ADMIN_USERNAME', 'ADMIN_PASSWORD', 'SANITY_PROJECT_ID'];
 for (const name of REQUIRED_ENV) {
     if (!process.env[name]) {
         console.error(`Missing ${name} in .env (or in Render's Environment settings)`);
@@ -22,6 +22,7 @@ const pagesRouter = require('./routes/pages');
 const { authRouter, ensureAdmin } = require('./routes/auth');
 const guestbookRouter = require('./routes/guestbook');
 const spaceRouter = require('./routes/space');
+const contentRouter = require('./routes/content');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -36,7 +37,7 @@ app.use(canonicalHost);
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
-            'img-src': ["'self'", 'data:', 'https://assets.science.nasa.gov']
+            'img-src': ["'self'", 'data:', 'https://assets.science.nasa.gov', 'https://cdn.sanity.io']
         }
     }
 }));
@@ -63,6 +64,7 @@ app.use(pagesRouter);
 app.use(authRouter);
 app.use('/api/guestbook', guestbookRouter);
 app.use('/api/space', spaceRouter);
+app.use('/api/posts', contentRouter); // public: no login needed for the news
 
 // ===== 4. Static files, then errors =====
 // `extensions: ['html']` lets /space find space.html without the extension

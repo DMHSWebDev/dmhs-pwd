@@ -36,7 +36,14 @@
                 "@type": "HighSchool",
                 "@id": "https://dmhspwd.org/#school",
                 "name": "Doherty Memorial High School",
+                "url": "https://www.worcesterschools.org/o/dmhs",
                 "logo": "https://dmhspwd.org/assets/logo-512.png",
+                "parentOrganization": {
+                    "@type": "EducationalOrganization",
+                    "@id": "https://www.worcesterschools.org/#district",
+                    "name": "Worcester Public Schools",
+                    "url": "https://www.worcesterschools.org/"
+                },
                 "address": {
                     "@type": "PostalAddress",
                     "addressLocality": "Worcester",
@@ -48,8 +55,12 @@
                 "@type": "EducationalOccupationalProgram",
                 "@id": "https://dmhspwd.org/#program",
                 "name": "Programming & Web Development",
-                "description": "A Career and Technical Education (CTE) program at Doherty Memorial High School in Worcester, Massachusetts, where students learn to design, code and launch real websites.",
+                "description": "A Chapter 74 Career and Technical Education (CTE) program at Doherty Memorial High School in Worcester, Massachusetts, approved by the Massachusetts Department of Elementary and Secondary Education (DESE). Students learn to design, code and launch real websites.",
                 "url": "https://dmhspwd.org/",
+                "sameAs": "https://www.worcesterschools.org/o/dmhs/page/engineering-and-technology-academy-eta-copy-copy-copy/",
+                "programType": "Chapter 74 Career and Technical Education",
+                "occupationalCategory": ["15-1254.00", "15-1252.00", "15-1255.00"],
+                "teaches": ["HTML", "CSS", "JavaScript", "Node.js", "Responsive web design", "Web accessibility", "Graphic design", "Databases", "Cybersecurity"],
                 "image": "https://dmhspwd.org/assets/og-image.png",
                 "educationalProgramMode": "in-person",
                 "provider": { "@id": "https://dmhspwd.org/#school" }
@@ -67,6 +78,7 @@
                 "serviceType": "Website design and development",
                 "description": "Doherty Memorial High School Programming & Web Development students design and build websites for local businesses, nonprofits, clubs and community members, at no cost.",
                 "url": "https://dmhspwd.org/#services",
+                "potentialAction": { "@type": "CommunicateAction", "name": "Request a website", "target": "https://dmhspwd.org/request" },
                 "provider": { "@id": "https://dmhspwd.org/#school" },
                 "areaServed": { "@type": "City", "name": "Worcester, Massachusetts" },
                 "offers": [
@@ -97,9 +109,9 @@
                 <p class="kicker">Doherty Memorial High School</p>
                 <h1 class="title">Programming &amp; Web Development</h1>
                 <p class="lede">
-                    A Career &amp; Technical Education (CTE) program at Doherty Memorial High School
-                    in Worcester, Massachusetts. Students learn to design, code and launch real
-                    websites, and build them for free for our community.
+                    A state-approved Chapter 74 Career &amp; Technical Education (CTE) program at
+                    Doherty Memorial High School in Worcester, Massachusetts. Students learn to
+                    design, code and launch real websites, and build them for free for our community.
                 </p>
 
                 <div class="status">
@@ -122,6 +134,10 @@
                     <span class="link-title">Web Services</span>
                     <span class="link-tag">free &middot; see below &darr;</span>
                 </a>
+                <a class="link-card" href="#about">
+                    <span class="link-title">About the Program</span>
+                    <span class="link-tag">chapter 74 cte &darr;</span>
+                </a>
                 <div class="link-card disabled">
                     <span class="link-title">Student Sites</span>
                     <span class="link-tag">coming soon</span>
@@ -141,6 +157,69 @@
             </footer>
         </main>
 
+        <section class="wrap services about" id="about" aria-labelledby="about-title">
+            <header class="brand">
+                <span class="prompt">dmhs@pwd</span><span class="colon">:</span><span class="path">~/about</span><span class="dollar">$</span>
+            </header>
+
+            <div class="services-intro">
+                <p class="kicker">About the program</p>
+                <h2 class="title" id="about-title">A state-approved Chapter 74 CTE program</h2>
+                <p class="lede">
+                    Programming &amp; Web Development is one of
+                    <a href="https://www.worcesterschools.org/o/dmhs/page/doherty-highs-chapter-74-cte-programs/">Doherty Memorial High School&rsquo;s Chapter 74 Career &amp; Technical Education programs</a>,
+                    approved by the Massachusetts Department of Elementary and Secondary Education (DESE)
+                    and offered through <a href="https://www.worcesterschools.org/">Worcester Public Schools</a>.
+                </p>
+                <p class="lede">
+                    Our coursework follows the state&rsquo;s
+                    <a href="https://www.doe.mass.edu/ccte/frameworks/program/web-development/default.html">Programming and Web Development framework</a>,
+                    part of the Information Technology Services career cluster. Students earn their high
+                    school diploma while building the skills that colleges and employers look for, and
+                    they practice them on real projects for real clients.
+                </p>
+            </div>
+
+            <div class="about-grid">
+                <article class="about-card">
+                    <h3>What students learn</h3>
+                    <ul class="tier-features">
+                        <li>HTML, CSS, and JavaScript</li>
+                        <li>Server programming with Node.js and Express</li>
+                        <li>Responsive, accessible web design</li>
+                        <li>Graphic design and user experience (UX)</li>
+                        <li>Databases, APIs, and working with data</li>
+                        <li>Cybersecurity and safe coding habits</li>
+                    </ul>
+                </article>
+
+                <article class="about-card">
+                    <h3>Real-world experience</h3>
+                    <ul class="tier-features">
+                        <li>Free websites for Worcester businesses, nonprofits, and clubs</li>
+                        <li>Working with clients from first meeting to launch day</li>
+                        <li>Team projects with version control (Git and GitHub)</li>
+                        <li>A professional portfolio of live, published work</li>
+                    </ul>
+                </article>
+
+                <article class="about-card">
+                    <h3>Where it leads</h3>
+                    <ul class="tier-features">
+                        <li>College programs in computer science, IT, and design</li>
+                        <li>Careers like web developer, software developer, and UX designer</li>
+                        <li>IT support, cybersecurity, and digital media roles</li>
+                    </ul>
+                </article>
+            </div>
+
+            <p class="lede">
+                Interested in joining? Learn more about
+                <a href="https://www.worcesterschools.org/o/dmhs/page/engineering-and-technology-academy-eta-copy-copy-copy/">Programming &amp; Web Development at Doherty</a>
+                on the Worcester Public Schools website.
+            </p>
+        </section>
+
         <section class="wrap services" id="services" aria-labelledby="services-title">
             <header class="brand">
                 <span class="prompt">dmhs@pwd</span><span class="colon">:</span><span class="path">~/services</span><span class="dollar">$</span>
@@ -159,8 +238,7 @@
             <div class="tiers">
                 <article class="tier">
                     <p class="tier-step">01</p>
-                    <h3 class="tier-name">Showcase</h3>
-                    <p class="tier-price">FREE</p>
+                    <h3 class="tier-name">Showcase <span class="tier-price">Free</span></h3>
                     <p class="tier-pitch">A clean, professional website that tells people who you are and what you do.</p>
                     <ul class="tier-features">
                         <li>A few pages, like Home, About, and Contact</li>
@@ -170,12 +248,12 @@
                         <li>Loads fast so visitors don&rsquo;t leave</li>
                     </ul>
                     <p class="tier-fit"><span>Great for:</span> portfolios, r&eacute;sum&eacute;s, artists, clubs, events</p>
+                    <a class="tier-link" href="/request?tier=Showcase">Request Showcase <span aria-hidden="true">&rarr;</span></a>
                 </article>
 
                 <article class="tier featured">
                     <p class="tier-step">02 <span class="tier-badge">Recommended</span></p>
-                    <h3 class="tier-name">Storyteller</h3>
-                    <p class="tier-price">FREE</p>
+                    <h3 class="tier-name">Storyteller <span class="tier-price">Free</span></h3>
                     <p class="tier-pitch">Everything in Showcase, plus a site you can update yourself. No tech skills needed.</p>
                     <ul class="tier-features">
                         <li>Everything in Showcase</li>
@@ -187,12 +265,12 @@
                         <li>Menus, services, or products you can change anytime</li>
                     </ul>
                     <p class="tier-fit"><span>Great for:</span> small businesses, restaurants, coaches, nonprofits</p>
+                    <a class="tier-link" href="/request?tier=Storyteller">Request Storyteller <span aria-hidden="true">&rarr;</span></a>
                 </article>
 
                 <article class="tier">
                     <p class="tier-step">03</p>
-                    <h3 class="tier-name">Storefront</h3>
-                    <p class="tier-price">FREE</p>
+                    <h3 class="tier-name">Storefront <span class="tier-price">Free</span></h3>
                     <p class="tier-pitch">A complete online business. Sell products, take payments, and let customers sign in.</p>
                     <ul class="tier-features">
                         <li>Everything in Storyteller</li>
@@ -204,14 +282,15 @@
                         <li>A message board where your community can post and chat</li>
                     </ul>
                     <p class="tier-fit"><span>Great for:</span> shops, makers, merch, bakeries, ticket sales</p>
+                    <a class="tier-link" href="/request?tier=Storefront">Request Storefront <span aria-hidden="true">&rarr;</span></a>
                 </article>
             </div>
 
             <div class="services-cta">
-                <div class="link-card disabled">
+                <a class="link-card" href="/request">
                     <span class="link-title">Request a website</span>
-                    <span class="link-tag">form coming soon</span>
-                </div>
+                    <span class="link-tag">free &middot; takes 2 minutes &rarr;</span>
+                </a>
             </div>
 
             <footer class="footer">
@@ -220,7 +299,10 @@
         </section>
     </div>
 
+    <footer class="site-footer" id="site-footer"></footer>
+
     <script src="/js/nav.js"></script>
+    <script src="/js/footer.js"></script>
     <script src="/js/grid.js"></script>
     <script src="/js/landing.js"></script>
 </body>

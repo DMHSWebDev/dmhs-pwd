@@ -651,14 +651,17 @@ a.link-card:focus-visible {
 }
 
 .tier-name {
-  margin: 0 0 6px;
+  margin: 0 0 14px;
   font-size: 20px;
   font-weight: 700;
   color: var(--fg);
 }
 
+/* The price sits inside the <h3>, so screen readers hear "Showcase, Free" */
 .tier-price {
-  margin: 0 0 14px;
+  display: block;
+  margin-top: 6px;
+  text-transform: uppercase; /* "Free" in the HTML, so it isn't read letter by letter */
   font-size: 30px;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -707,6 +710,15 @@ a.link-card:focus-visible {
   color: var(--dim);
 }
 .tier-fit span { color: var(--fg); }
+
+.tier-link {
+  margin-top: 16px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  text-underline-offset: 3px;
+}
+.tier-link:hover { text-decoration-thickness: 2px; }
 
 .services-cta {
   max-width: 240px;
@@ -1304,4 +1316,116 @@ main:focus { outline: none; }
   line-height: 1.7;
   color: var(--dim);
   white-space: pre-line;
+}
+
+/* ==========================================
+   ABOUT THE PROGRAM (home page)
+   ========================================== */
+.about .title { margin-bottom: 16px; }
+.about .lede + .lede { margin-top: 14px; }
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 32px 0 28px;
+}
+.about-card {
+  padding: 20px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.about-card h3 {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+}
+.about-card .tier-features { padding: 0; border: 0; margin: 0; }
+.about-card p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--dim);
+}
+.about a,
+.services-cta a:not(.link-card) { color: var(--accent); }
+
+/* ==========================================
+   REQUEST FORM
+   ========================================== */
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+select.input { cursor: pointer; }
+
+@media (max-width: 480px) {
+  .field-row { grid-template-columns: 1fr; }
+}
+
+/* ==========================================
+   SITE FOOTER (filled in by footer.js)
+   ========================================== */
+.site-footer {
+  position: relative;
+  z-index: 2;
+  padding: 0 16px 40px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--dim);
+}
+.footer-inner {
+  width: min(1040px, 100%);
+  margin: 0 auto;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1.2fr;
+  gap: 28px;
+}
+.footer-about p { margin: 0; max-width: 46ch; }
+.footer-name {
+  margin-bottom: 8px !important;
+  color: var(--fg);
+  font-weight: 500;
+}
+.footer-head {
+  margin: 0 0 10px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+.footer-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.site-footer a {
+  color: var(--dim);
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 3px;
+}
+.site-footer a:hover,
+.site-footer a:focus-visible {
+  color: var(--accent);
+  text-decoration-color: currentColor;
+}
+.footer-legal {
+  width: min(1040px, 100%);
+  margin: 24px auto 0;
+  font-size: 11px;
+}
+
+@media (max-width: 720px) {
+  .footer-inner { grid-template-columns: 1fr; gap: 22px; }
 }

@@ -21,4 +21,11 @@ const spaceLimiter = rateLimit({
     message: { error: 'Too many space lookups. Please wait a minute.' }
 });
 
-module.exports = { limiter, authLimiter, spaceLimiter };
+// Website requests: 5 per hour, so no one can flood our inbox
+const contactLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000,
+    limit: 5,
+    message: { error: 'Too many requests sent. Please wait an hour and try again.' }
+});
+
+module.exports = { limiter, authLimiter, spaceLimiter, contactLimiter };

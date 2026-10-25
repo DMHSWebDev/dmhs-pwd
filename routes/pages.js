@@ -19,6 +19,11 @@ router.get('/projects', (req, res) => {
     res.sendFile(path.join(PUBLIC_DIR, 'projects.html'));
 });
 
+router.get('/request', (req, res) => {
+    req.session.formLoadedAt = Date.now(); // start the bot-check clock
+    res.sendFile(path.join(PUBLIC_DIR, 'request.html'));
+});
+
 router.get('/dashboard', requireAdminPage, (req, res) => {
     res.sendFile(path.join(PUBLIC_DIR, 'dashboard.html'));
 });

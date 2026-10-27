@@ -100,6 +100,35 @@ if (mainContent) {
     document.body.prepend(skipLink);
 }
 
+// Links to other websites open in a new tab so our site stays open.
+// Links within dmhspwd.org stay in the same tab.
+function markExternalLink(link) {
+    if (link.host === window.location.host || !link.protocol.startsWith('http')) return;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    // Screen readers announce that a new tab will open
+    if (!link.querySelector('.new-tab-note')) {
+        const note = document.createElement('span');
+        note.className = 'visually-hidden new-tab-note';
+        note.textContent = ' (opens in a new tab)';
+        link.append(note);
+    }
+}
+
+function markExternalLinks(root) {
+    if (root.matches && root.matches('a[href]')) markExternalLink(root);
+    if (root.querySelectorAll) root.querySelectorAll('a[href]').forEach(markExternalLink);
+}
+
+markExternalLinks(document.body);
+// Catch links added later (footer, news posts) or given an href later (NASA link)
+new MutationObserver((changes) => {
+    for (const change of changes) {
+        if (change.type === 'attributes') markExternalLinks(change.target);
+        change.addedNodes.forEach(markExternalLinks);
+    }
+}).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['href'] });
+
 // Light / dark toggle. theme.js already picked the starting theme.
 const themeToggle = document.querySelector('#theme-toggle');
 

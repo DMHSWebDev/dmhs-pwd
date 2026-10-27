@@ -1277,6 +1277,19 @@ textarea.input {
 
 main:focus { outline: none; }
 
+/* Text for screen readers only, like "(opens in a new tab)" */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Moves the guestbook honeypot off-screen, where no person will see it */
 .hp-field {
     position: absolute;

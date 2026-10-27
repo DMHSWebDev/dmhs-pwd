@@ -28,4 +28,14 @@ const contactLimiter = rateLimit({
     message: { error: 'Too many requests sent. Please wait an hour and try again.' }
 });
 
-module.exports = { limiter, authLimiter, spaceLimiter, contactLimiter };
+// Guestbook posts: 2 per minute, per account. Counted by user instead of
+// by IP, since a whole classroom shares one school IP address.
+// Only used after requireAuth, so there is always a userId.
+const guestbookLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    limit: 2,
+    keyGenerator: (req) => String(req.session.userId),
+    message: { error: 'You can post 2 messages per minute. Please wait a moment and try again.' }
+});
+
+module.exports = { limiter, authLimiter, spaceLimiter, contactLimiter, guestbookLimiter };

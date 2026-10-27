@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('../db');
 const { requireAuth } = require('../middleware/auth');
 const { botCheck } = require('../middleware/botCheck');
+const { guestbookLimiter } = require('../middleware/limiters');
 const { validateEntry } = require('../utils/validation');
 const { Filter } = require('bad-words');
 
@@ -30,8 +31,8 @@ router.get('/:id', requireAuth, async (req, res) => {
 });
 
 // CREATE: POST /api/guestbook
-// requireAuth first (clear 401), then botCheck, then the route
-router.post('/', requireAuth, botCheck, async (req, res) => {
+// requireAuth first (clear 401), then the post limit, then botCheck, then the route
+router.post('/', requireAuth, guestbookLimiter, botCheck, async (req, res) => {
     const { msg } = req.body;
     // The name comes from the session, so no one can post as someone else
     const name = req.session.username;

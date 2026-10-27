@@ -98,5 +98,6 @@ async function deleteEntry(id) {
 
 module.exports = {
     getAllEntries, getEntryById, addEntry, updateEntry, deleteEntry,
-    getUserByUsername, addUser, updateUserPassword
+    getUserByUsername, addUser, updateUserPassword,
+    pool // shared with the session store in server.js
 };

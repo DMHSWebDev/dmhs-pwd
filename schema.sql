@@ -21,3 +21,13 @@ CREATE TABLE IF NOT EXISTS guestbook (
 
 -- The guestbook is always read newest-last, so keep it sorted
 CREATE INDEX IF NOT EXISTS guestbook_created_at_idx ON guestbook (created_at);
+
+-- Login sessions, so logins survive restarts and deploys.
+-- connect-pg-simple reads and writes this table and deletes expired rows.
+CREATE TABLE IF NOT EXISTS session (
+    sid    varchar PRIMARY KEY,
+    sess   json NOT NULL,
+    expire timestamp(6) NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS session_expire_idx ON session (expire);

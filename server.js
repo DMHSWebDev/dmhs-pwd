@@ -12,6 +12,7 @@ for (const name of REQUIRED_ENV) {
 const path = require('path');
 const express = require('express');
 const session = require('express-session');
+const PgSession = require('connect-pg-simple')(session);
 const helmet = require('helmet');
 
 const { canonicalHost } = require('./middleware/canonicalHost');
@@ -24,6 +25,7 @@ const guestbookRouter = require('./routes/guestbook');
 const spaceRouter = require('./routes/space');
 const contentRouter = require('./routes/content');
 const contactRouter = require('./routes/contact');
+const { pool } = require('./db');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -48,7 +50,10 @@ app.use(requestLogger);
 app.use(limiter);
 
 // ===== 2. Sessions =====
+// Sessions are saved in the "session" table (see schema.sql) instead of
+// in memory, so logins survive restarts and deploys
 app.use(session({
+    store: new PgSession({ pool, tableName: 'session' }),
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,

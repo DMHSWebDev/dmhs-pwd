@@ -78,10 +78,19 @@ router.get('/api/whoami', (req, res) => {
     });
 });
 
-// Creates the admin account from .env if it doesn't exist yet
+// Creates the admin account from .env if it doesn't exist yet,
+// and saves a new hash if ADMIN_PASSWORD has changed since last boot
 async function ensureAdmin() {
     const existing = await db.getUserByUsername(process.env.ADMIN_USERNAME);
-    if (existing) return;
+    if (existing) {
+        const passwordOk = await bcrypt.compare(process.env.ADMIN_PASSWORD, existing.passwordHash);
+        if (passwordOk) return;
+
+        const passwordHash = await bcrypt.hash(process.env.ADMIN_PASSWORD, 12);
+        await db.updateUserPassword(existing.id, passwordHash);
+        console.log('Updated admin password');
+        return;
+    }
 
     const passwordHash = await bcrypt.hash(process.env.ADMIN_PASSWORD, 12);
     await db.addUser({ username: process.env.ADMIN_USERNAME, passwordHash, role: 'admin' });

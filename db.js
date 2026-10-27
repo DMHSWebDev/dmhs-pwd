@@ -49,6 +49,11 @@ async function addUser({ username, passwordHash, role = 'user' }) {
     return rows[0];
 }
 
+// Also takes a passwordHash, never a password
+async function updateUserPassword(id, passwordHash) {
+    await pool.query(`UPDATE users SET password_hash = $2 WHERE id = $1`, [id, passwordHash]);
+}
+
 async function getAllEntries() {
     const { rows } = await pool.query(`SELECT ${ENTRY_COLUMNS} FROM guestbook ORDER BY created_at`);
     return rows;
@@ -93,5 +98,5 @@ async function deleteEntry(id) {
 
 module.exports = {
     getAllEntries, getEntryById, addEntry, updateEntry, deleteEntry,
-    getUserByUsername, addUser
+    getUserByUsername, addUser, updateUserPassword
 };

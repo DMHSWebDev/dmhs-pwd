@@ -1398,7 +1398,7 @@ select.input { cursor: pointer; }
   padding-top: 28px;
   border-top: 1px solid var(--line);
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1.2fr;
+  grid-template-columns: 1.4fr 1fr 1.2fr 1fr;
   gap: 28px;
 }
 .footer-about p { margin: 0; max-width: 46ch; }
@@ -1422,6 +1422,10 @@ select.input { cursor: pointer; }
   flex-direction: column;
   gap: 6px;
 }
+.footer-note {
+  margin: 10px 0 0;
+  font-size: 11px;
+}
 .site-footer a {
   color: var(--dim);
   text-decoration: underline;
@@ -1439,6 +1443,9 @@ select.input { cursor: pointer; }
   font-size: 11px;
 }
 
+@media (max-width: 960px) {
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+}
 @media (max-width: 720px) {
   .footer-inner { grid-template-columns: 1fr; gap: 22px; }
 }

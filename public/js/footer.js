@@ -3,6 +3,10 @@
 
 const DISTRICT = 'https://www.worcesterschools.org';
 
+// School social accounts, run by Doherty's CVE Marketing program.
+const INSTAGRAM = 'https://www.instagram.com/doherty_highlanders/';
+const FACEBOOK = 'https://www.facebook.com/p/Doherty-Memorial-High-School-61552491896966/';
+
 // No user data goes in here, so innerHTML is safe
 document.querySelector('#site-footer').innerHTML = `
     <div class="footer-inner">
@@ -36,6 +40,15 @@ document.querySelector('#site-footer').innerHTML = `
                 <li><a href="${DISTRICT}/">Worcester Public Schools</a></li>
                 <li><a href="https://www.doe.mass.edu/ccte/frameworks/program/web-development/default.html">State framework (MA DESE)</a></li>
             </ul>
+        </nav>
+
+        <nav class="footer-col" aria-label="Doherty social media">
+            <p class="footer-head">Follow Doherty</p>
+            <ul>
+                <li><a href="${INSTAGRAM}">Instagram &middot; @doherty_highlanders</a></li>
+                <li><a href="${FACEBOOK}">Facebook &middot; Doherty Memorial High School</a></li>
+            </ul>
+            <p class="footer-note">Run by Doherty&rsquo;s CVE Marketing program.</p>
         </nav>
     </div>
     <p class="footer-legal">&copy; ${new Date().getFullYear()} Doherty Memorial High School &middot; Worcester Public Schools</p>

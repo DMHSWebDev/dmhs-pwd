@@ -603,6 +603,10 @@ a.link-card:focus-visible {
   line-height: 1.7;
   color: var(--dim);
 }
+.lede a {
+  color: var(--accent);
+  text-underline-offset: 3px;
+}
 
 .tiers {
   display: grid;

@@ -37,6 +37,7 @@ document.querySelector('#site-footer').innerHTML = `
                 <li><a href="${DISTRICT}/o/dmhs/page/engineering-and-technology-academy-eta-copy-copy-copy/">Programming &amp; Web Development at Doherty</a></li>
                 <li><a href="${DISTRICT}/o/dmhs/page/doherty-highs-chapter-74-cte-programs/">Doherty&rsquo;s Chapter 74 CTE programs</a></li>
                 <li><a href="${DISTRICT}/o/dmhs">Doherty Memorial High School</a></li>
+                <li><a href="https://dmhsherald.org/">The DMHS Herald (school newspaper)</a></li>
                 <li><a href="${DISTRICT}/">Worcester Public Schools</a></li>
                 <li><a href="https://www.doe.mass.edu/ccte/frameworks/program/web-development/default.html">State framework (MA DESE)</a></li>
             </ul>

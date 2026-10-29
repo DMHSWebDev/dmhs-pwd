@@ -80,7 +80,18 @@ app.use('/api/shop', shopRouter); // public: products, checkout, orders for the 
 
 // ===== 4. Static files, then errors =====
 // `extensions: ['html']` lets /space find space.html without the extension
-app.use(express.static(PUBLIC_DIR, { extensions: ['html'] }));
+// Pages, scripts and styles change together when we deploy. "no-cache" makes
+// browsers check for a newer copy every time (a quick "still the same" reply
+// when nothing changed), so nobody gets a new page running an old script.
+// Images can still be cached.
+app.use(express.static(PUBLIC_DIR, {
+    extensions: ['html'],
+    setHeaders: (res, filePath) => {
+        if (/\.(html|js|css)$/.test(filePath)) {
+            res.setHeader('Cache-Control', 'no-cache');
+        }
+    }
+}));
 app.use(notFound);
 app.use(errorHandler);
 

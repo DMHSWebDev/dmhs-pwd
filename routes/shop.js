@@ -19,6 +19,7 @@ if (process.env.STRIPE_SECRET_KEY?.startsWith('sk_live_')) {
 const MAX_LINES = 20;    // different products in one cart
 const MAX_QUANTITY = 10; // of any one product
 const FREE_SHIPPING_CENTS = 5000; // orders of $50 or more ship free
+const PICKUP_METHOD = 'In-store pickup';
 
 const PRODUCTS_QUERY = `*[_type == "product"] | order(order asc, name asc){
     "id": _id,
@@ -72,7 +73,12 @@ function readCart(body) {
     for (const quantity of quantities.values()) {
         if (quantity > MAX_QUANTITY) return { error: `You can buy up to ${MAX_QUANTITY} of each item.` };
     }
-    return { cart: [...quantities].map(([id, quantity]) => ({ id, quantity })) };
+
+    // Ship it, or pick it up at the shop
+    const fulfillment = body.fulfillment ?? 'ship';
+    if (fulfillment !== 'ship' && fulfillment !== 'pickup') return { error: 'Please choose shipping or pickup.' };
+
+    return { cart: [...quantities].map(([id, quantity]) => ({ id, quantity })), fulfillment };
 }
 
 // The shipping choices on Stripe's checkout page. Worked out on the server
@@ -106,10 +112,11 @@ async function recordPayment(sessionId) {
     if (session.payment_status !== 'paid') return;
 
     const shipping = session.collected_information?.shipping_details;
+    const pickup = session.metadata?.fulfillment === 'pickup';
     await db.markOrderPaid(sessionId, {
         email: session.customer_details?.email,
         shippingCents: session.shipping_cost?.amount_total ?? 0,
-        shippingMethod: session.shipping_cost?.shipping_rate?.display_name,
+        shippingMethod: pickup ? PICKUP_METHOD : session.shipping_cost?.shipping_rate?.display_name,
         shippingName: shipping?.name,
         shippingAddress: shipping?.address
     });
@@ -132,6 +139,7 @@ function publicOrder(order) {
         shippingCents: order.shippingCents,
         totalCents: order.totalCents + (order.shippingCents || 0),
         shippingMethod: order.shippingMethod,
+        pickup: order.shippingMethod === PICKUP_METHOD,
         shipTo: address ? `${order.shippingName}, ${address.city}, ${address.state}` : null,
         createdAt: order.createdAt,
         items: order.items
@@ -156,7 +164,7 @@ router.post('/checkout', checkoutLimiter, async (req, res) => {
         return res.status(503).json({ error: 'Checkout isn\'t turned on yet. Please check back soon.' });
     }
 
-    const { cart, error } = readCart(req.body);
+    const { cart, fulfillment, error } = readCart(req.body);
     if (error) return res.status(400).json({ error });
 
     // Look up the REAL name and price of each item on the server
@@ -194,12 +202,15 @@ router.post('/checkout', checkoutLimiter, async (req, res) => {
                 }
             })),
             // Stripe swaps in the real session ID where {CHECKOUT_SESSION_ID} is
-            shipping_address_collection: { allowed_countries: ['US'] },
-            shipping_options: shippingOptions(totalCents),
+            // Pickup orders skip the address and shipping steps on Stripe's page
+            ...(fulfillment === 'ship' && {
+                shipping_address_collection: { allowed_countries: ['US'] },
+                shipping_options: shippingOptions(totalCents)
+            }),
             success_url: `${siteOrigin(req)}/frontendexamples/potbound-success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${siteOrigin(req)}/frontendexamples/potbound?checkout=canceled`,
             expires_at: Math.floor(Date.now() / 1000) + 30 * 60, // 30 minutes, Stripe's shortest
-            metadata: { site: 'potbound-demo' }
+            metadata: { site: 'potbound-demo', fulfillment }
         });
     } catch (err) {
         writeLog(`[${new Date().toISOString()}] STRIPE ERROR: ${err.message}`);

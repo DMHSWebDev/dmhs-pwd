@@ -49,8 +49,8 @@
                 <p class="pill">Houseplants &middot; Worcester, MA</p>
                 <h1>Plants that are <span class="highlight">easy to love.</span></h1>
                 <p class="lede">
-                    Tough, good-looking houseplants for busy people and dark apartments, potted,
-                    packed with care, and shipped to your door. Shipping is free on orders over $50.
+                    Tough, good-looking houseplants for busy people and dark apartments, potted
+                    and ready to go. Pick them up at our Main Street shop, or we&rsquo;ll ship them free on orders over $50.
                 </p>
                 <a class="btn btn-dark" href="#shop">Shop plants &rarr;</a>
                 <ul class="perks">
@@ -111,8 +111,20 @@
         </div>
         <ul class="cart-lines" id="cart-lines"></ul>
         <div class="cart-foot">
+            <fieldset class="fulfillment">
+                <legend>How do you want it?</legend>
+                <label class="choice">
+                    <input type="radio" name="fulfillment" value="ship" checked>
+                    <span><strong>Ship to me</strong>$7, or free over $50</span>
+                </label>
+                <label class="choice">
+                    <input type="radio" name="fulfillment" value="pickup">
+                    <span><strong>Pick up in store</strong>Free &middot; 212 Main St.</span>
+                </label>
+            </fieldset>
             <p class="subtotal"><span>Subtotal</span><strong id="cart-subtotal">$0.00</strong></p>
-            <p class="cart-note">Shipping is added at checkout, free over $50. Test mode: use card 4242 4242 4242 4242.</p>
+            <p class="shipping-line"><span>Shipping</span><span id="cart-shipping">$7.00</span></p>
+            <p class="cart-note">Test mode: use card 4242 4242 4242 4242. No real money moves.</p>
             <button class="btn btn-lime checkout-button" type="button" id="checkout-button">Check out securely</button>
             <p class="cart-message" id="cart-message" role="alert"></p>
         </div>

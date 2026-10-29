@@ -3,7 +3,11 @@
 // Everything from outside goes in with textContent, never innerHTML.
 
 const CART_KEY = 'potbound-cart';
+const FULFILLMENT_KEY = 'potbound-fulfillment';
 const MAX_QUANTITY = 10; // the server checks this too
+// Shown in the cart only. The server sets the real shipping price.
+const FREE_SHIPPING_CENTS = 5000;
+const STANDARD_SHIPPING_CENTS = 700;
 const money = cents => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(cents / 100);
 const toCents = dollars => Math.round(dollars * 100);
 
@@ -36,6 +40,16 @@ function saveCart() {
 }
 
 let cart = loadCart();
+
+// 'ship' or 'pickup', remembered like the cart
+function loadFulfillment() {
+    try {
+        return localStorage.getItem(FULFILLMENT_KEY) === 'pickup' ? 'pickup' : 'ship';
+    } catch (err) {
+        return 'ship';
+    }
+}
+let fulfillment = loadFulfillment();
 let products = [];
 const productById = id => products.find(product => product.id === id);
 
@@ -56,6 +70,7 @@ const filterBox = document.querySelector('#filters');
 const cartDialog = document.querySelector('.cart');
 const cartLines = document.querySelector('#cart-lines');
 const cartSubtotal = document.querySelector('#cart-subtotal');
+const cartShipping = document.querySelector('#cart-shipping');
 const cartMessage = document.querySelector('#cart-message');
 const checkoutButton = document.querySelector('#checkout-button');
 const cartCount = document.querySelector('.cart-count');
@@ -184,6 +199,8 @@ function renderCart() {
     // This total is just for show. The server works out the real one.
     const subtotal = entries.reduce((sum, [id, quantity]) => sum + toCents(productById(id).price) * quantity, 0);
     cartSubtotal.textContent = money(subtotal);
+    if (fulfillment === 'pickup' || subtotal >= FREE_SHIPPING_CENTS) cartShipping.textContent = 'Free';
+    else cartShipping.textContent = money(STANDARD_SHIPPING_CENTS);
     checkoutButton.disabled = entries.length === 0;
 }
 
@@ -192,13 +209,13 @@ async function checkout() {
     checkoutButton.disabled = true;
     checkoutButton.textContent = 'Taking you to Stripe…';
 
-    // Send only product IDs and quantities, never prices
+    // Send only product IDs, quantities, and ship-or-pickup. Never prices.
     const items = Object.entries(cart).map(([id, quantity]) => ({ id, quantity }));
     try {
         const response = await fetch('/api/shop/checkout', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ items })
+            body: JSON.stringify({ items, fulfillment })
         });
         const data = await response.json().catch(() => ({}));
         if (!response.ok) throw new Error(data.error || 'Could not start checkout. Please try again.');
@@ -218,6 +235,19 @@ async function startShop() {
         if (event.target === cartDialog) cartDialog.close();
     });
     checkoutButton.addEventListener('click', checkout);
+
+    document.querySelectorAll('input[name="fulfillment"]').forEach(radio => {
+        radio.checked = radio.value === fulfillment;
+        radio.addEventListener('change', () => {
+            fulfillment = radio.value;
+            try {
+                localStorage.setItem(FULFILLMENT_KEY, fulfillment);
+            } catch (err) {
+                // Still works until the page closes
+            }
+            renderCart();
+        });
+    });
 
     // Coming back from Stripe without paying
     if (new URLSearchParams(window.location.search).get('checkout') === 'canceled') {
@@ -251,7 +281,8 @@ const receipt = document.querySelector('#receipt');
 function renderReceipt(order) {
     const head = el('div', 'receipt-head');
     if (order.status === 'paid') {
-        head.append(el('span', 'receipt-icon', '✓'), el('p', 'pill pill-lime', `Order #${order.orderNumber}`), el('h1', '', 'Thank you! Your plants are on the way.'));
+        const headline = order.pickup ? 'Thank you! We’re getting your plants ready.' : 'Thank you! Your plants are on the way.';
+        head.append(el('span', 'receipt-icon', '✓'), el('p', 'pill pill-lime', `Order #${order.orderNumber}`), el('h1', '', headline));
     } else if (order.status === 'pending') {
         head.append(el('span', 'receipt-icon waiting', '…'), el('h1', '', 'Confirming your payment with Stripe…'));
     } else {
@@ -275,10 +306,12 @@ function renderReceipt(order) {
     }
     const total = el('p', 'receipt-total');
     total.append(el('span', '', 'Total'), el('strong', '', money(order.totalCents)));
-    const shipTo = order.shipTo ? [el('p', 'receipt-ship', `Shipping to ${order.shipTo}`)] : [];
+    let shipTo = [];
+    if (order.pickup) shipTo = [el('p', 'receipt-ship', 'Pick up at 212 Main St. Your order will be ready in about 2 hours.')];
+    else if (order.shipTo) shipTo = [el('p', 'receipt-ship', `Shipping to ${order.shipTo}`)];
 
     const note = el('p', 'receipt-note', order.status === 'paid'
-        ? 'On a real shop, a receipt and tracking number would be emailed to you, and the order would show up in the owner’s dashboard.'
+        ? `On a real shop, a receipt${order.pickup ? '' : ' and tracking number'} would be emailed to you, and the order would show up in the owner’s dashboard.`
         : order.status === 'pending' ? 'This usually takes a few seconds.' : 'Nothing was charged. Your cart is still saved.');
 
     receipt.replaceChildren(head, list, ...sums, total, ...shipTo, note);

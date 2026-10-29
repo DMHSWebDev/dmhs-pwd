@@ -364,7 +364,25 @@ h2 { font-size: clamp(2.4rem, 6vw, 4.4rem); }
 .stepper { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
 .quantity { min-width: 18px; text-align: center; font-weight: 600; color: var(--ink); }
 .cart-foot { padding: 20px 24px 24px; border-top: 1px solid var(--line); background: var(--card); }
+.fulfillment { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 16px; padding: 0; border: 0; }
+.fulfillment legend { margin-bottom: 8px; padding: 0; font-weight: 600; }
+.choice {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+}
+.choice:has(input:checked) { border-color: var(--ink); background: var(--bg); }
+.choice:has(input:focus-visible) { outline: 3px solid var(--leaf); outline-offset: 2px; }
+.choice input { margin: 3px 0 0; accent-color: var(--ink); }
+.choice strong { display: block; font-size: 14px; color: var(--ink); }
 .subtotal { display: flex; justify-content: space-between; margin: 0 0 6px; font-size: 1.1rem; }
+.shipping-line { display: flex; justify-content: space-between; margin: 0 0 6px; color: var(--muted); }
 .cart-note { margin: 0 0 16px; font-size: 13px; color: var(--muted); }
 .checkout-button { width: 100%; padding: 16px; font-size: 16px; }
 .cart-message { min-height: 1.4em; margin: 10px 0 0; color: #b0302a; font-size: 14px; font-weight: 500; }

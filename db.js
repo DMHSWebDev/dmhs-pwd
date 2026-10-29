@@ -1,4 +1,4 @@
-// db.js - the ONLY file that knows how guestbook data is stored
+// db.js - the ONLY file that knows how our data is stored
 // Data lives in Postgres on Neon. The tables are in schema.sql.
 const { Pool } = require('pg');
 
@@ -18,6 +18,7 @@ const MAX_ENTRIES = 50;
 // camelCase. "AS" renames each column on the way out.
 const USER_COLUMNS = `id, username, password_hash AS "passwordHash", role, created_at AS "createdAt"`;
 const ENTRY_COLUMNS = `id, name, msg, author_id AS "authorId", created_at AS "createdAt", updated_at AS "updatedAt"`;
+const ORDER_COLUMNS = `id, stripe_session_id AS "sessionId", status, total_cents AS "totalCents", created_at AS "createdAt", paid_at AS "paidAt"`;
 
 // ----- Private helpers (not exported) -----
 
@@ -96,7 +97,66 @@ async function deleteEntry(id) {
     return rowCount > 0; // false if nothing matched
 }
 
+// ----- Shop orders -----
+
+// Saves a new "pending" order and its items together. The transaction
+// (BEGIN ... COMMIT) means we never end up with an order missing its items.
+async function addOrder({ sessionId, totalCents, items }) {
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+        const { rows } = await client.query(
+            `INSERT INTO orders (stripe_session_id, total_cents) VALUES ($1, $2) RETURNING id`,
+            [sessionId, totalCents]
+        );
+        for (const item of items) {
+            await client.query(
+                `INSERT INTO order_items (order_id, product_id, name, unit_cents, quantity)
+                 VALUES ($1, $2, $3, $4, $5)`,
+                [rows[0].id, item.productId, item.name, item.unitCents, item.quantity]
+            );
+        }
+        await client.query('COMMIT');
+    } catch (err) {
+        await client.query('ROLLBACK');
+        throw err;
+    } finally {
+        client.release(); // give the connection back to the pool
+    }
+}
+
+async function getOrderBySessionId(sessionId) {
+    const { rows } = await pool.query(
+        `SELECT ${ORDER_COLUMNS} FROM orders WHERE stripe_session_id = $1`,
+        [sessionId]
+    );
+    if (!rows[0]) return null;
+    const items = await pool.query(
+        `SELECT name, unit_cents AS "unitCents", quantity FROM order_items WHERE order_id = $1 ORDER BY name`,
+        [rows[0].id]
+    );
+    return { ...rows[0], items: items.rows };
+}
+
+// Only a pending order can become paid or expired, so a late or repeated
+// message from Stripe can't change an order that is already settled
+async function markOrderPaid(sessionId, email) {
+    await pool.query(
+        `UPDATE orders SET status = 'paid', paid_at = now(), email = $2
+         WHERE stripe_session_id = $1 AND status = 'pending'`,
+        [sessionId, email || null]
+    );
+}
+
+async function markOrderExpired(sessionId) {
+    await pool.query(
+        `UPDATE orders SET status = 'expired' WHERE stripe_session_id = $1 AND status = 'pending'`,
+        [sessionId]
+    );
+}
+
 module.exports = {
+    addOrder, getOrderBySessionId, markOrderPaid, markOrderExpired,
     getAllEntries, getEntryById, addEntry, updateEntry, deleteEntry,
     getUserByUsername, addUser, updateUserPassword,
     pool // shared with the session store in server.js

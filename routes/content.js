@@ -1,10 +1,7 @@
 const express = require('express');
+const { sanityQuery } = require('../utils/sanity');
 
 const router = express.Router();
-
-const DATASET = 'production';
-const API_VERSION = 'v2025-02-19';
-const CACHE_TIME = 60 * 1000; // 1 minute
 
 // GROQ queries: only the fields our pages need
 const POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(publishedAt desc)[0...20]{
@@ -34,38 +31,6 @@ const MENU_QUERY = `*[_type == "menuItem"] | order(order asc, name asc){
     description,
     soldOut
 }`;
-
-// One saved answer per query, like { savedAt, result }
-const cache = new Map();
-
-// Asks Sanity a GROQ query. Answers are reused for a minute so a busy page
-// doesn't send Sanity a request for every visitor.
-async function sanityQuery(query, params = {}) {
-    const cacheKey = query + JSON.stringify(params);
-    const saved = cache.get(cacheKey);
-    if (saved && Date.now() - saved.savedAt < CACHE_TIME) {
-        return saved.result;
-    }
-
-    const sanityUrl = new URL(
-        `https://${process.env.SANITY_PROJECT_ID}.apicdn.sanity.io/${API_VERSION}/data/query/${DATASET}`
-    );
-    sanityUrl.searchParams.set('query', query);
-    // GROQ parameters go in the address as $name=<JSON value>
-    for (const [name, value] of Object.entries(params)) {
-        sanityUrl.searchParams.set(`$${name}`, JSON.stringify(value));
-    }
-
-    // Give up if Sanity takes longer than 8 seconds
-    const sanityResponse = await fetch(sanityUrl, { signal: AbortSignal.timeout(8000) });
-    if (!sanityResponse.ok) {
-        throw new Error(`Sanity error ${sanityResponse.status}`);
-    }
-
-    const { result } = await sanityResponse.json();
-    cache.set(cacheKey, { savedAt: Date.now(), result });
-    return result;
-}
 
 // Rename Sanity's fields to ours, and ask for a smaller image
 function cleanPost(post) {

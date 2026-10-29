@@ -28,6 +28,14 @@ const contactLimiter = rateLimit({
     message: { error: 'Too many requests sent. Please wait an hour and try again.' }
 });
 
+// Shop checkouts: 30 per 10 minutes. Generous, since a whole classroom
+// trying the demo shares one school IP address.
+const checkoutLimiter = rateLimit({
+    windowMs: 10 * 60 * 1000,
+    limit: 30,
+    message: { error: 'Too many checkouts started. Please wait a few minutes and try again.' }
+});
+
 // Guestbook posts: 2 per minute, per account. Counted by user instead of
 // by IP, since a whole classroom shares one school IP address.
 // Only used after requireAuth, so there is always a userId.
@@ -38,4 +46,4 @@ const guestbookLimiter = rateLimit({
     message: { error: 'You can post 2 messages per minute. Please wait a moment and try again.' }
 });
 
-module.exports = { limiter, authLimiter, spaceLimiter, contactLimiter, guestbookLimiter };
+module.exports = { limiter, authLimiter, spaceLimiter, contactLimiter, checkoutLimiter, guestbookLimiter };

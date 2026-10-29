@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order confirmed | Potbound Plant Co.</title>
+    <meta name="description" content="Order confirmation for Potbound, a sample Storefront website.">
+    <!-- Not useful in search results, so ask search engines to skip it -->
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#f5f4ee">
+    <link rel="icon" href="/frontendexamples/potbound-art/logo.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/frontendexamples/potbound.css">
+</head>
+
+<body>
+    <aside class="demo-bar">
+        <p><strong>Sample shop in test mode.</strong> This order was paid with a test card, so nothing was really charged.</p>
+        <p class="demo-links">
+            <a href="/#services">&larr; Back to services</a>
+            <a class="demo-cta" href="/request?tier=Storefront">Get a site like this</a>
+        </p>
+    </aside>
+
+    <header class="topbar">
+        <a class="brand" href="/frontendexamples/potbound">
+            <img src="/frontendexamples/potbound-art/logo.svg" alt="" width="40" height="40">
+            <span>Potbound</span>
+        </a>
+    </header>
+
+    <main class="receipt-page">
+        <!-- Filled in by potbound.js from /api/shop/orders -->
+        <section class="receipt" id="receipt" aria-live="polite">
+            <p class="status">Looking up your order&hellip;</p>
+        </section>
+        <p class="receipt-back"><a class="btn btn-dark" href="/frontendexamples/potbound">&larr; Keep shopping</a></p>
+    </main>
+
+    <footer class="footer">
+        <p class="footer-brand">Potbound Plant Co.</p>
+        <p>&copy; <span class="year">2026</span> Potbound (a pretend business). Example site designed and built by <a href="/">DMHS Programming &amp; Web Development</a> students.</p>
+    </footer>
+
+    <script src="/frontendexamples/potbound.js"></script>
+</body>
+
+</html>

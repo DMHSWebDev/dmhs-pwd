@@ -25,6 +25,7 @@ const guestbookRouter = require('./routes/guestbook');
 const spaceRouter = require('./routes/space');
 const contentRouter = require('./routes/content');
 const contactRouter = require('./routes/contact');
+const { shopRouter, stripeWebhook } = require('./routes/shop');
 const { pool } = require('./db');
 
 const app = express();
@@ -44,6 +45,9 @@ app.use(helmet({
         }
     }
 }));
+// Stripe's webhook must see the raw body to check its signature, so it
+// goes before the JSON parser below turns the body into an object
+app.post('/api/shop/webhook', express.raw({ type: 'application/json' }), stripeWebhook);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(requestLogger);
@@ -72,6 +76,7 @@ app.use('/api/guestbook', guestbookRouter);
 app.use('/api/space', spaceRouter);
 app.use('/api/cms', contentRouter); // public: blog and menu for the Storyteller example
 app.use('/api/contact', contactRouter); // public: website requests
+app.use('/api/shop', shopRouter); // public: products, checkout, orders for the Storefront example
 
 // ===== 4. Static files, then errors =====
 // `extensions: ['html']` lets /space find space.html without the extension
@@ -81,5 +86,13 @@ app.use(errorHandler);
 
 // ===== 5. Start =====
 ensureAdmin().then(() => {
-    app.listen(PORT, () => console.log(`Server live on http://localhost:${PORT}`));
+    // Express 5 passes startup errors (like a port already in use) here
+    // instead of crashing, so report them instead of claiming success
+    app.listen(PORT, (err) => {
+        if (err) {
+            console.error(`Could not start the server: ${err.message}`);
+            process.exit(1);
+        }
+        console.log(`Server live on http://localhost:${PORT}`);
+    });
 });

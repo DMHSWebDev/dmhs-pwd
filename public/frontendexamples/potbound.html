@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potbound Plant Co. | Storefront Example</title>
+    <meta name="description" content="A sample Storefront website built by DMHS Programming &amp; Web Development students: a fictional plant shop with a cart and secure Stripe checkout in test mode.">
+    <!-- Not useful in search results, so ask search engines to skip it -->
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#f5f4ee">
+    <link rel="icon" href="/frontendexamples/potbound-art/logo.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/frontendexamples/potbound.css">
+</head>
+
+<body>
+    <!-- Tells visitors this is a demo, and how to pay with a test card -->
+    <aside class="demo-bar">
+        <p>
+            <strong>Sample shop in test mode.</strong> Nothing is really charged. Pay with card
+            <code>4242 4242 4242 4242</code>, any future date, any CVC.
+        </p>
+        <p class="demo-links">
+            <a href="/#services">&larr; Back to services</a>
+            <a class="demo-cta" href="/request?tier=Storefront">Get a site like this</a>
+        </p>
+    </aside>
+
+    <header class="topbar">
+        <a class="brand" href="/frontendexamples/potbound">
+            <img src="/frontendexamples/potbound-art/logo.svg" alt="" width="40" height="40">
+            <span>Potbound</span>
+        </a>
+        <nav aria-label="Main">
+            <a href="#shop">Shop</a>
+            <a href="#secure">Secure checkout</a>
+        </nav>
+        <button class="cart-button" type="button" aria-haspopup="dialog">
+            Cart <span class="cart-count" aria-label="items in cart">0</span>
+        </button>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="pill">Houseplants &middot; Worcester, MA</p>
+                <h1>Plants that are <span class="highlight">hard to kill.</span></h1>
+                <p class="lede">
+                    Tough, good-looking houseplants for busy people and dark apartments, potted
+                    and ready to go. Pick up in the shop or get free local delivery over $50.
+                </p>
+                <a class="btn btn-dark" href="#shop">Shop plants &rarr;</a>
+                <ul class="perks">
+                    <li><strong>30-day</strong> plant guarantee</li>
+                    <li><strong>Free</strong> delivery over $50</li>
+                    <li><strong>Care card</strong> in every box</li>
+                </ul>
+            </div>
+            <img class="hero-art" src="/frontendexamples/potbound-art/hero.svg" alt="A snake plant, a monstera, and a golden pothos in pots" width="900" height="760">
+        </section>
+
+        <!-- SHOP: products come from the CMS, drawn by potbound.js -->
+        <section class="shop" id="shop" aria-labelledby="shop-title">
+            <div class="shop-head">
+                <h2 id="shop-title">The shop</h2>
+                <div class="filters" id="filters" role="group" aria-label="Filter products"></div>
+            </div>
+            <ul class="products" id="products" aria-live="polite">
+                <li class="status">Loading the shop&hellip;</li>
+            </ul>
+        </section>
+
+        <!-- SECURE CHECKOUT: speaks to potential clients -->
+        <section class="secure" id="secure" aria-labelledby="secure-title">
+            <p class="pill pill-lime">Why this is a Storefront site</p>
+            <h2 id="secure-title">A real cart with secure checkout.</h2>
+            <p class="lede">Payments run through Stripe, a payment service used by millions of businesses. Here&rsquo;s what keeps it safe:</p>
+            <ol class="secure-steps">
+                <li>
+                    <span class="step">01</span>
+                    <h3>Card numbers never touch this site</h3>
+                    <p>Checkout happens on Stripe&rsquo;s own secure page, so the shop never sees or stores anyone&rsquo;s card.</p>
+                </li>
+                <li>
+                    <span class="step">02</span>
+                    <h3>Prices are checked on the server</h3>
+                    <p>The cart only says what you want and how many. The server looks up the real prices, so nobody can edit the page to pay less.</p>
+                </li>
+                <li>
+                    <span class="step">03</span>
+                    <h3>Stripe confirms every order</h3>
+                    <p>An order only counts once Stripe sends the shop a signed message saying the payment went through.</p>
+                </li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p class="footer-brand">Potbound Plant Co.</p>
+        <p>&copy; <span class="year">2026</span> Potbound (a pretend business). Example site designed and built by <a href="/">DMHS Programming &amp; Web Development</a> students.</p>
+    </footer>
+
+    <!-- Cart drawer: opened by potbound.js -->
+    <dialog class="cart" aria-labelledby="cart-title">
+        <div class="cart-head">
+            <h2 id="cart-title">Your cart</h2>
+            <button class="icon-button cart-close" type="button" aria-label="Close cart">&times;</button>
+        </div>
+        <ul class="cart-lines" id="cart-lines"></ul>
+        <div class="cart-foot">
+            <p class="subtotal"><span>Subtotal</span><strong id="cart-subtotal">$0.00</strong></p>
+            <p class="cart-note">Test mode: use card 4242 4242 4242 4242. No real money moves.</p>
+            <button class="btn btn-lime checkout-button" type="button" id="checkout-button">Check out securely</button>
+            <p class="cart-message" id="cart-message" role="alert"></p>
+        </div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" hidden></div>
+
+    <script src="/frontendexamples/potbound.js"></script>
+</body>
+
+</html>

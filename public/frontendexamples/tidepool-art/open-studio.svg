@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+<defs><filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .11  0 0 0 0 .14  0 0 0 0 .25  0 0 0 .55 -.12"/></filter></defs>
+<rect width="400" height="500" fill="#f4efe6"/>
+<g style="isolation:isolate">
+<circle cx="270" cy="170" r="130" fill="#ff48b0" style="mix-blend-mode:multiply"/>
+<path d="M-50 410 q50 -30 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 V520 H-50Z" fill="#00838a" style="mix-blend-mode:multiply"/>
+<path d="M0 440 q50 -22 100 0 t100 0 t100 0 t100 0 t100 0 V520 H0Z" fill="#ffb511" opacity=".85" style="mix-blend-mode:multiply"/>
+<g font-family="Georgia, 'Times New Roman', serif" font-weight="700" fill="#1d2440">
+<text x="32" y="210" font-size="96" letter-spacing="-3">OPEN</text>
+<text x="32" y="300" font-size="96" letter-spacing="-3" font-style="italic">Studio</text>
+</g>
+<g font-family="Helvetica, Arial, sans-serif" font-weight="700" fill="#1d2440" letter-spacing="3">
+<text x="36" y="60" font-size="14">TIDEPOOL PRINT STUDIO</text>
+<text x="36" y="345" font-size="15">FIRST SATURDAYS · 10–3</text>
+<text x="36" y="368" font-size="13" font-weight="400">WATCH A PRINT GET MADE</text>
+</g>
+<path d="M36 72 h150" stroke="#1d2440" stroke-width="2"/>
+</g>
+<rect width="400" height="500" filter="url(#grain)" opacity=".55"/>
+</svg>

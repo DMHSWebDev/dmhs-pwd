@@ -70,7 +70,7 @@ app.use(pagesRouter);
 app.use(authRouter);
 app.use('/api/guestbook', guestbookRouter);
 app.use('/api/space', spaceRouter);
-app.use('/api/posts', contentRouter); // public: no login needed for the news
+app.use('/api/cms', contentRouter); // public: blog and menu for the Storyteller example
 app.use('/api/contact', contactRouter); // public: website requests
 
 // ===== 4. Static files, then errors =====

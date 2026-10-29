@@ -4,21 +4,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-<!-- Not useful in search results, so ask search engines to skip it -->
+    <title>Tidepool Print Studio | Showcase Example</title>
+    <meta name="description" content="A sample Showcase website built by DMHS Programming &amp; Web Development students for a fictional Worcester print studio.">
+    <!-- Not useful in search results, so ask search engines to skip it -->
     <meta name="robots" content="noindex">
-    </head>
+    <meta name="theme-color" content="#f4efe6">
+    <link rel="icon" href="/frontendexamples/tidepool-art/mark.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/frontendexamples/tidepool.css">
+</head>
 
 <body>
-    <header>
+    <!-- Tells visitors this is a demo, and points them back to our services -->
+    <aside class="demo-bar">
+        <p>
+            <strong>Sample site.</strong> Tidepool is a made-up studio. This is an example of our free
+            <em>Showcase</em> website.
+        </p>
+        <p class="demo-links">
+            <a href="/#services">&larr; Back to services</a>
+            <a class="demo-cta" href="/request?tier=Showcase">Get a site like this</a>
+        </p>
+    </aside>
 
+    <header class="nav" id="top">
+        <a class="logo" href="#top" aria-label="Tidepool Print Studio, back to top">
+            <img src="/frontendexamples/tidepool-art/mark.svg" alt="" width="36" height="36">
+            <span>Tidepool<small>Print Studio</small></span>
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu">
+            <span class="sr-only">Menu</span>
+            <span class="bars" aria-hidden="true"></span>
+        </button>
+        <nav id="menu" aria-label="Main">
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
+            <a href="#visit">Visit</a>
+            <a class="nav-cta" href="#contact">Commissions</a>
+        </nav>
     </header>
-    <nav>
 
-    </nav>
-    <div class="search">
+    <main>
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">Risograph prints &middot; Worcester, MA</p>
+                <h1>Prints from the <em>edge</em> of the water.</h1>
+                <p class="lede">
+                    Small-batch, hand-pulled prints of tide pools, kelp, and the little creatures
+                    that live between high and low tide. Inked one color at a time.
+                </p>
+                <div class="hero-actions">
+                    <a class="btn btn-solid" href="#work">See the work</a>
+                    <a class="btn btn-line" href="#contact">Commission a piece</a>
+                </div>
+            </div>
 
-    </div>
+            <div class="hero-art" aria-hidden="true">
+                <svg viewBox="0 0 600 600" class="hero-svg">
+                    <circle class="sun" cx="380" cy="210" r="130" />
+                    <circle class="sun-ring" cx="372" cy="204" r="130" />
+                    <g class="wave-row w1"><path d="M-300 330 q75 -40 150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 V600 H-300Z" /></g>
+                    <g class="wave-row w2"><path d="M-300 390 q75 -36 150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 V600 H-300Z" /></g>
+                    <g class="wave-row w3"><path d="M-300 450 q75 -32 150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 V600 H-300Z" /></g>
+                    <g class="star">
+                        <path d="M140 470 l14 32 35 3 -27 23 9 34 -31 -18 -31 18 9 -34 -27 -23 35 -3Z" />
+                    </g>
+                </svg>
+                <p class="hero-tag">Pulled by hand<br>in 4 colors</p>
+            </div>
+        </section>
+
+        <div class="marquee" aria-hidden="true">
+            <div class="marquee-track">
+                <span>Open studio first Saturdays</span><span>&#10038;</span>
+                <span>Commissions open for spring</span><span>&#10038;</span>
+                <span>Prints from $35</span><span>&#10038;</span>
+                <span>Made in Worcester</span><span>&#10038;</span>
+                <span>Open studio first Saturdays</span><span>&#10038;</span>
+                <span>Commissions open for spring</span><span>&#10038;</span>
+                <span>Prints from $35</span><span>&#10038;</span>
+                <span>Made in Worcester</span><span>&#10038;</span>
+            </div>
+        </div>
+
+        <section class="section work" id="work" aria-labelledby="work-title">
+            <div class="section-head reveal">
+                <p class="eyebrow">01 &mdash; The work</p>
+                <h2 id="work-title">Recent prints</h2>
+                <p>Tap any piece to see it up close.</p>
+            </div>
+
+            <div class="filters" role="group" aria-label="Filter the gallery">
+                <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">All</button>
+                <button type="button" class="filter" data-filter="print" aria-pressed="false">Prints</button>
+                <button type="button" class="filter" data-filter="poster" aria-pressed="false">Posters</button>
+                <button type="button" class="filter" data-filter="commission" aria-pressed="false">Commissions</button>
+            </div>
+
+            <ul class="gallery">
+                <li class="piece reveal" data-category="print">
+                    <button type="button" data-title="Low Tide" data-meta="3-color riso &middot; 8&times;10 in &middot; edition of 50">
+                        <img src="/frontendexamples/tidepool-art/low-tide.svg" alt="A yellow sun setting behind overlapping teal and blue waves" width="400" height="500" loading="lazy">
+                        <span class="caption"><strong>Low Tide</strong><span>3-color riso</span></span>
+                    </button>
+                </li>
+                <li class="piece reveal" data-category="print">
+                    <button type="button" data-title="Anemone" data-meta="2-color riso &middot; 8&times;10 in &middot; edition of 40">
+                        <img src="/frontendexamples/tidepool-art/anemone.svg" alt="A pink sea anemone made of a ring of overlapping circles on a blue disc" width="400" height="500" loading="lazy">
+                        <span class="caption"><strong>Anemone</strong><span>2-color riso</span></span>
+                    </button>
+                </li>
+                <li class="piece reveal" data-category="poster">
+                    <button type="button" data-title="Open Studio" data-meta="Event poster &middot; 11&times;17 in">
+                        <img src="/frontendexamples/tidepool-art/open-studio.svg" alt="An event poster reading Open Studio, first Saturdays, with a large pink circle and a teal wave" width="400" height="500" loading="lazy">
+                        <span class="caption"><strong>Open Studio</strong><span>Event poster</span></span>
+                    </button>
+                </li>
+                <li class="piece reveal" data-category="print">
+                    <button type="button" data-title="Kelp Forest" data-meta="2-color riso &middot; 8&times;10 in &middot; edition of 60">
+                        <img src="/frontendexamples/tidepool-art/kelp.svg" alt="Tall wavy teal and blue kelp stalks rising toward a yellow surface" width="400" height="500" loading="lazy">
+                        <span class="caption"><strong>Kelp Forest</strong><span>2-color riso</span></span>
+                    </button>
+                </li>
+                <li class="piece reveal" data-category="commission">
+                    <button type="button" data-title="Starfish Season" data-meta="Commission for a Worcester caf&eacute; &middot; 18&times;24 in">
+                        <img src="/frontendexamples/tidepool-art/starfish.svg" alt="Three overlapping pink and yellow starfish on a cream background" width="400" height="500" loading="lazy">
+                        <span class="caption"><strong>Starfish Season</strong><span>Caf&eacute; mural print</span></span>
+                    </button>
+                </li>
+                <li class="piece reveal" data-category="print">
+                    <button type="button" data-title="Moon Jelly" data-meta="2-color riso &middot; 8&times;10 in &middot; edition of 40">
+                        <img src="/frontendexamples/tidepool-art/moon-jelly.svg" alt="A blue jellyfish with long curling tentacles drifting over a pink background" width="400" height="500" loading="lazy">
+                        <span class="caption"><strong>Moon Jelly</strong><span>2-color riso</span></span>
+                    </button>
+                </li>
+                <li class="piece reveal" data-category="commission">
+                    <button type="button" data-title="Sea Glass" data-meta="Commission for a wedding &middot; 12&times;16 in">
+                        <img src="/frontendexamples/tidepool-art/sea-glass.svg" alt="Scattered rounded pieces of sea glass in teal, blue, yellow, and pink" width="400" height="500" loading="lazy">
+                        <span class="caption"><strong>Sea Glass</strong><span>Wedding commission</span></span>
+                    </button>
+                </li>
+                <li class="piece reveal" data-category="poster">
+                    <button type="button" data-title="Shell Study" data-meta="Market poster &middot; 11&times;17 in">
+                        <img src="/frontendexamples/tidepool-art/shell.svg" alt="A spiral seashell drawn with stacked pink and yellow rings on a blue background" width="400" height="500" loading="lazy">
+                        <span class="caption"><strong>Shell Study</strong><span>Market poster</span></span>
+                    </button>
+                </li>
+            </ul>
+        </section>
+
+        <section class="section about" id="about" aria-labelledby="about-title">
+            <div class="about-portrait reveal">
+                <img src="/frontendexamples/tidepool-art/studio.svg" alt="An illustration of a print studio: a drying rack of colorful prints next to a window" width="400" height="500" loading="lazy">
+            </div>
+            <div class="about-copy reveal">
+                <p class="eyebrow">02 &mdash; About</p>
+                <h2 id="about-title">Hi, I&rsquo;m Rae.</h2>
+                <p>
+                    I grew up spending summers flipping over rocks on the Maine coast, and I&rsquo;ve
+                    been drawing what I found under them ever since. Tidepool is my one-person
+                    print studio in a converted mill building in Worcester.
+                </p>
+                <p>
+                    Every print is made on a risograph, a 1980s Japanese printer that works like a
+                    tiny screen-print shop. Each color is its own pass of soy-based ink, so no two
+                    prints line up exactly the same. That wobble is the best part.
+                </p>
+
+                <dl class="stats">
+                    <div><dt>Prints pulled</dt><dd>4,200</dd></div>
+                    <div><dt>Ink colors</dt><dd>4</dd></div>
+                    <div><dt>Years printing</dt><dd>6</dd></div>
+                </dl>
+            </div>
+
+            <ol class="process reveal" aria-label="How a print is made">
+                <li><span>Sketch</span>Pencil drawings from the shoreline, scanned in.</li>
+                <li><span>Separate</span>Each color is split onto its own layer.</li>
+                <li><span>Print</span>One pass per ink, then dried on the rack.</li>
+            </ol>
+
+            <figure class="quote reveal">
+                <blockquote>
+                    &ldquo;Rae made a print of our caf&eacute;&rsquo;s logo as a starfish. Customers ask about it every single day.&rdquo;
+                </blockquote>
+                <figcaption>Jordan, owner of a (pretend) caf&eacute; on Shrewsbury St.</figcaption>
+            </figure>
+        </section>
+
+        <section class="section visit" id="visit" aria-labelledby="visit-title">
+            <div class="section-head reveal">
+                <p class="eyebrow">03 &mdash; Visit</p>
+                <h2 id="visit-title">Come say hi</h2>
+                <p>Find prints in person at the studio and at these upcoming markets.</p>
+            </div>
+
+            <ul class="events">
+                <li class="event reveal">
+                    <time datetime="2026-11-07"><span>Nov</span>07</time>
+                    <div>
+                        <h3>Open Studio Saturday</h3>
+                        <p>Tidepool Studio &middot; 10am&ndash;3pm &middot; Watch a print get made</p>
+                    </div>
+                </li>
+                <li class="event reveal">
+                    <time datetime="2026-11-21"><span>Nov</span>21</time>
+                    <div>
+                        <h3>Holiday Makers Market</h3>
+                        <p>Downtown Worcester &middot; 11am&ndash;5pm &middot; Booth 14</p>
+                    </div>
+                </li>
+                <li class="event reveal">
+                    <time datetime="2026-12-05"><span>Dec</span>05</time>
+                    <div>
+                        <h3>Open Studio Saturday</h3>
+                        <p>Tidepool Studio &middot; 10am&ndash;3pm &middot; Holiday card printing</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="section contact" id="contact" aria-labelledby="contact-title">
+            <div class="contact-card reveal">
+                <p class="eyebrow">04 &mdash; Contact</p>
+                <h2 id="contact-title">Want a print, or one of your own?</h2>
+                <p>
+                    I take a handful of commissions each season: logos, posters, wedding art, and
+                    gifts. Send a note with what you have in mind.
+                </p>
+
+                <ul class="contact-links">
+                    <li>
+                        <a href="mailto:hello@example.com">
+                            <span class="label">Email</span>
+                            <span class="value">hello@example.com</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="tel:+15085550142">
+                            <span class="label">Phone</span>
+                            <span class="value">(508) 555-0142</span>
+                        </a>
+                    </li>
+                    <li>
+                        <span class="label">Instagram</span>
+                        <span class="value">@tidepool.prints</span>
+                    </li>
+                    <li>
+                        <span class="label">Studio</span>
+                        <span class="value">Mill St. Studios, Unit 3<br>Worcester, MA</span>
+                    </li>
+                </ul>
+            </div>
+            <img class="contact-art" src="/frontendexamples/tidepool-art/starfish-mark.svg" alt="" width="240" height="240" loading="lazy">
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; <span id="year">2026</span> Tidepool Print Studio (a pretend business)</p>
+        <p>
+            Example site designed and built by
+            <a href="/">DMHS Programming &amp; Web Development</a> students.
+        </p>
+    </footer>
+
+    <!-- Gallery lightbox: opened by tidepool.js -->
+    <dialog class="lightbox" aria-labelledby="lightbox-title">
+        <button type="button" class="lb-close" aria-label="Close">&times;</button>
+        <figure>
+            <img src="" alt="">
+            <figcaption>
+                <strong id="lightbox-title"></strong>
+                <span class="lb-meta"></span>
+            </figcaption>
+        </figure>
+        <button type="button" class="lb-prev" aria-label="Previous piece">&larr;</button>
+        <button type="button" class="lb-next" aria-label="Next piece">&rarr;</button>
+    </dialog>
+
+    <script src="/frontendexamples/tidepool.js"></script>
 </body>
 
 </html>

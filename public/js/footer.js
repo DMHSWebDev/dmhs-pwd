@@ -26,7 +26,6 @@ document.querySelector('#site-footer').innerHTML = `
                 <li><a href="/#about">About the program</a></li>
                 <li><a href="/#services">Free web services</a></li>
                 <li><a href="/request">Request a website</a></li>
-                <li><a href="/news">News</a></li>
                 <li><a href="/projects">Student projects</a></li>
             </ul>
         </nav>

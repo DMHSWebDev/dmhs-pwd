@@ -723,6 +723,7 @@ a.link-card:focus-visible {
   text-underline-offset: 3px;
 }
 .tier-link:hover { text-decoration-thickness: 2px; }
+.tier-link + .tier-link { margin-top: 8px; }
 
 .services-cta {
   max-width: 240px;
@@ -1305,35 +1306,6 @@ main:focus { outline: none; }
 
 /* Program description under the home page title */
 .hero .lede { margin: -16px 0 24px; }
-
-/* ==========================================
-   NEWS
-   Scoped to .post-list so the service tier
-   cards (also <article>s) are not affected
-   ========================================== */
-.post-list {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-.post-list article {
-  padding-bottom: 40px;
-  border-bottom: 1px solid var(--line);
-}
-.post-list article:last-child {
-  padding-bottom: 0;
-  border-bottom: none;
-}
-
-/* Keep the line breaks typed in the Studio */
-.post-body {
-  margin: 0;
-  max-width: 72ch;
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--dim);
-  white-space: pre-line;
-}
 
 /* ==========================================
    ABOUT THE PROGRAM (home page)

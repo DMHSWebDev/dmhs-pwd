@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+<rect width="1200" height="800" fill="#e9b949"/>
+
+<g transform="translate(600 420) scale(2.4)"><g fill="none" stroke="#1e3329" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M-150 30 C-140 -20 -100 -60 -60 -70 C-40 -100 40 -100 60 -70 C100 -60 140 -20 150 30 C120 10 90 5 60 20 C40 45 -40 45 -60 20 C-90 5 -120 10 -150 30Z"/>
+<path d="M-60 -70 C-70 -30 -65 0 -60 20 M60 -70 C70 -30 65 0 60 20 M0 -92 C-8 -40 -8 0 0 38"/>
+<path d="M-105 -40 q10 25 -5 55 M105 -40 q-10 25 5 55"/>
+</g></g>
+<g transform="translate(160 400) rotate(-15) scale(1.1)"><g fill="none" stroke="#1e3329" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M0 -125 V140"/><path d="M0 -92 q-24 -6 -26 -30 q24 4 26 30Z"/><path d="M0 -92 q24 -6 26 -30 q-24 4 -26 30Z"/><path d="M0 -66 q-24 -6 -26 -30 q24 4 26 30Z"/><path d="M0 -66 q24 -6 26 -30 q-24 4 -26 30Z"/><path d="M0 -40 q-24 -6 -26 -30 q24 4 26 30Z"/><path d="M0 -40 q24 -6 26 -30 q-24 4 -26 30Z"/><path d="M0 -14 q-24 -6 -26 -30 q24 4 26 30Z"/><path d="M0 -14 q24 -6 26 -30 q-24 4 -26 30Z"/><path d="M0 12 q-24 -6 -26 -30 q24 4 26 30Z"/><path d="M0 12 q24 -6 26 -30 q-24 4 -26 30Z"/><path d="M0 38 q-24 -6 -26 -30 q24 4 26 30Z"/><path d="M0 38 q24 -6 26 -30 q-24 4 -26 30Z"/><path d="M0 -125 l-8 -22 M0 -125 l8 -22"/></g></g>
+<g transform="translate(1040 400) rotate(15) scale(1.1)"><g fill="none" stroke="#1e3329" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M0 -125 V140"/><path d="M0 -92 q-24 -6 -26 -30 q24 4 26 30Z"/><path d="M0 -92 q24 -6 26 -30 q-24 4 -26 30Z"/><path d="M0 -66 q-24 -6 -26 -30 q24 4 26 30Z"/><path d="M0 -66 q24 -6 26 -30 q-24 4 -26 30Z"/><path d="M0 -40 q-24 -6 -26 -30 q24 4 26 30Z"/><path d="M0 -40 q24 -6 26 -30 q-24 4 -26 30Z"/><path d="M0 -14 q-24 -6 -26 -30 q24 4 26 30Z"/><path d="M0 -14 q24 -6 26 -30 q-24 4 -26 30Z"/><path d="M0 12 q-24 -6 -26 -30 q24 4 26 30Z"/><path d="M0 12 q24 -6 26 -30 q-24 4 -26 30Z"/><path d="M0 38 q-24 -6 -26 -30 q24 4 26 30Z"/><path d="M0 38 q24 -6 26 -30 q-24 4 -26 30Z"/><path d="M0 -125 l-8 -22 M0 -125 l8 -22"/></g></g>
+</svg>

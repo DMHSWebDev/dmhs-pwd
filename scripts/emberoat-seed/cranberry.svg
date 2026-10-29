@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+<rect width="1200" height="800" fill="#8e2f3c"/>
+
+<g transform="translate(430 430) scale(1.9)"><g fill="none" stroke="#f3ecdf" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M-150 40 C-160 -40 -90 -95 0 -95 C90 -95 160 -40 150 40 C145 70 120 80 0 80 C-120 80 -145 70 -150 40Z"/>
+<path d="M-95 -40 q25 -25 55 -30 M-35 -55 q30 -25 60 -28 M30 -55 q30 -22 60 -22"/>
+<path d="M-120 55 q120 18 240 0" stroke-dasharray="2 12"/>
+</g></g>
+<g transform="translate(860 360) scale(1.7)"><g fill="none" stroke="#f3ecdf" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="-40" cy="10" r="22"/><path d="M-45 -4 l5 6 5 -6"/><circle cx="0" cy="-20" r="22"/><path d="M-5 -34 l5 6 5 -6"/><circle cx="40" cy="15" r="22"/><path d="M35 1 l5 6 5 -6"/><circle cx="-10" cy="40" r="22"/><path d="M-15 26 l5 6 5 -6"/><circle cx="25" cy="55" r="22"/><path d="M20 41 l5 6 5 -6"/>
+<path d="M0 -42 c-10 -40 -40 -50 -70 -45 c20 15 45 25 70 45 c10 -30 40 -45 70 -40 c-25 15 -45 25 -70 40"/></g></g>
+</svg>

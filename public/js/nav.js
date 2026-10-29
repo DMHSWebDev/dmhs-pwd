@@ -14,7 +14,6 @@ document.querySelector('#site-nav').innerHTML = `
         <div class="nav-menu" id="nav-menu">
             <a class="nav-link" href="/">Home</a>
             <a class="nav-link" href="/#services">Services</a>
-            <a class="nav-link" href="/news">News</a>
 
             <div class="dropdown">
                 <button class="nav-trigger" id="projects-trigger" type="button" aria-expanded="false" aria-controls="projects-panel">
@@ -121,7 +120,7 @@ function markExternalLinks(root) {
 }
 
 markExternalLinks(document.body);
-// Catch links added later (footer, news posts) or given an href later (NASA link)
+// Catch links added later (footer) or given an href later (NASA link)
 new MutationObserver((changes) => {
     for (const change of changes) {
         if (change.type === 'attributes') markExternalLinks(change.target);

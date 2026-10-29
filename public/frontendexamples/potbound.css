@@ -409,7 +409,10 @@ h2 { font-size: clamp(2.4rem, 6vw, 4.4rem); }
   padding: 14px 0;
   border-bottom: 1px solid var(--line);
 }
+.receipt-sum { display: flex; justify-content: space-between; gap: 16px; margin: 0; padding: 10px 0 0; color: var(--muted); }
+.receipt-sum + .receipt-total { margin-top: 10px; border-top: 1px solid var(--line); }
 .receipt-total { margin: 0; font-size: 1.2rem; border-bottom: 0; }
+.receipt-ship { margin: 0; padding: 12px 16px; border-radius: 14px; background: var(--bg); font-weight: 500; }
 .receipt-note { margin: 16px 0 0; font-size: 14px; color: var(--muted); }
 .receipt-back { margin-top: 24px; text-align: center; }
 

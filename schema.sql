@@ -57,3 +57,11 @@ CREATE TABLE IF NOT EXISTS order_items (
 );
 
 CREATE INDEX IF NOT EXISTS order_items_order_id_idx ON order_items (order_id);
+
+-- Shipping, added after the orders table already existed. ADD COLUMN IF NOT
+-- EXISTS adds these to the live table once, and skips them after that.
+-- total_cents (above) is the items only; the customer paid total + shipping.
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS shipping_cents   integer;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS shipping_method  text;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS shipping_name    text;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS shipping_address jsonb;

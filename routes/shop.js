@@ -18,6 +18,7 @@ if (process.env.STRIPE_SECRET_KEY?.startsWith('sk_live_')) {
 
 const MAX_LINES = 20;    // different products in one cart
 const MAX_QUANTITY = 10; // of any one product
+const FREE_SHIPPING_CENTS = 5000; // orders of $50 or more ship free
 
 const PRODUCTS_QUERY = `*[_type == "product"] | order(order asc, name asc){
     "id": _id,
@@ -74,18 +75,64 @@ function readCart(body) {
     return { cart: [...quantities].map(([id, quantity]) => ({ id, quantity })) };
 }
 
+// The shipping choices on Stripe's checkout page. Worked out on the server
+// from the real total, so the browser can't claim free shipping.
+function shippingOptions(totalCents) {
+    const option = (name, cents, minDays, maxDays) => ({
+        shipping_rate_data: {
+            type: 'fixed_amount',
+            display_name: name,
+            fixed_amount: { amount: cents, currency: 'usd' },
+            delivery_estimate: {
+                minimum: { unit: 'business_day', value: minDays },
+                maximum: { unit: 'business_day', value: maxDays }
+            }
+        }
+    });
+    const standard = totalCents >= FREE_SHIPPING_CENTS ? 0 : 700;
+    return [
+        option(standard === 0 ? 'Free standard shipping' : 'Standard shipping', standard, 3, 5),
+        option('Express shipping', 1500, 1, 2)
+    ];
+}
+
+// Asks Stripe about a checkout and, if it's paid, saves the payment and
+// where to ship it. Asking Stripe directly (instead of trusting whatever
+// reached us) means the saved details always come from Stripe itself.
+async function recordPayment(sessionId) {
+    const session = await stripe.checkout.sessions.retrieve(sessionId, {
+        expand: ['shipping_cost.shipping_rate'] // include the shipping option's name
+    });
+    if (session.payment_status !== 'paid') return;
+
+    const shipping = session.collected_information?.shipping_details;
+    await db.markOrderPaid(sessionId, {
+        email: session.customer_details?.email,
+        shippingCents: session.shipping_cost?.amount_total ?? 0,
+        shippingMethod: session.shipping_cost?.shipping_rate?.display_name,
+        shippingName: shipping?.name,
+        shippingAddress: shipping?.address
+    });
+}
+
 // The address of this site, for Stripe to send shoppers back to
 function siteOrigin(req) {
     const host = process.env.CANONICAL_HOST;
     return host ? `https://${host}` : `${req.protocol}://${req.get('host')}`;
 }
 
-// What the thank-you page is allowed to see: no email, no Stripe details
+// What the thank-you page is allowed to see. Anyone with the link can open
+// it, so: no email, no street address, no Stripe details.
 function publicOrder(order) {
+    const address = order.shippingAddress;
     return {
         orderNumber: order.id.slice(0, 8).toUpperCase(),
         status: order.status,
-        totalCents: order.totalCents,
+        subtotalCents: order.totalCents,
+        shippingCents: order.shippingCents,
+        totalCents: order.totalCents + (order.shippingCents || 0),
+        shippingMethod: order.shippingMethod,
+        shipTo: address ? `${order.shippingName}, ${address.city}, ${address.state}` : null,
         createdAt: order.createdAt,
         items: order.items
     };
@@ -147,6 +194,8 @@ router.post('/checkout', checkoutLimiter, async (req, res) => {
                 }
             })),
             // Stripe swaps in the real session ID where {CHECKOUT_SESSION_ID} is
+            shipping_address_collection: { allowed_countries: ['US'] },
+            shipping_options: shippingOptions(totalCents),
             success_url: `${siteOrigin(req)}/frontendexamples/potbound-success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${siteOrigin(req)}/frontendexamples/potbound?checkout=canceled`,
             expires_at: Math.floor(Date.now() / 1000) + 30 * 60, // 30 minutes, Stripe's shortest
@@ -183,11 +232,8 @@ router.get('/orders/:sessionId', async (req, res) => {
         // a few seconds, and there is no webhook on a laptop), ask Stripe
         // directly. Either way, Stripe is the one that says it was paid.
         if (order.status === 'pending' && stripe) {
-            const session = await stripe.checkout.sessions.retrieve(sessionId);
-            if (session.payment_status === 'paid') {
-                await db.markOrderPaid(sessionId, session.customer_details?.email);
-                order = await db.getOrderBySessionId(sessionId);
-            }
+            await recordPayment(sessionId);
+            order = await db.getOrderBySessionId(sessionId);
         }
 
         res.json(publicOrder(order));
@@ -221,14 +267,14 @@ async function stripeWebhook(req, res) {
 
     const session = event.data.object;
     try {
-        if (event.type === 'checkout.session.completed' && session.payment_status === 'paid') {
-            await db.markOrderPaid(session.id, session.customer_details?.email);
+        if (event.type === 'checkout.session.completed') {
+            await recordPayment(session.id);
         } else if (event.type === 'checkout.session.expired') {
             await db.markOrderExpired(session.id);
         }
     } catch (err) {
         // A 500 tells Stripe to try again later
-        console.error('Webhook database error:', err.message);
+        console.error('Webhook error:', err.message);
         return res.status(500).send('Try again');
     }
 

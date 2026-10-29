@@ -18,7 +18,8 @@ const MAX_ENTRIES = 50;
 // camelCase. "AS" renames each column on the way out.
 const USER_COLUMNS = `id, username, password_hash AS "passwordHash", role, created_at AS "createdAt"`;
 const ENTRY_COLUMNS = `id, name, msg, author_id AS "authorId", created_at AS "createdAt", updated_at AS "updatedAt"`;
-const ORDER_COLUMNS = `id, stripe_session_id AS "sessionId", status, total_cents AS "totalCents", created_at AS "createdAt", paid_at AS "paidAt"`;
+const ORDER_COLUMNS = `id, stripe_session_id AS "sessionId", status, total_cents AS "totalCents", created_at AS "createdAt", paid_at AS "paidAt",
+    shipping_cents AS "shippingCents", shipping_method AS "shippingMethod", shipping_name AS "shippingName", shipping_address AS "shippingAddress"`;
 
 // ----- Private helpers (not exported) -----
 
@@ -140,11 +141,12 @@ async function getOrderBySessionId(sessionId) {
 
 // Only a pending order can become paid or expired, so a late or repeated
 // message from Stripe can't change an order that is already settled
-async function markOrderPaid(sessionId, email) {
+async function markOrderPaid(sessionId, { email, shippingCents, shippingMethod, shippingName, shippingAddress }) {
     await pool.query(
-        `UPDATE orders SET status = 'paid', paid_at = now(), email = $2
+        `UPDATE orders SET status = 'paid', paid_at = now(), email = $2,
+             shipping_cents = $3, shipping_method = $4, shipping_name = $5, shipping_address = $6
          WHERE stripe_session_id = $1 AND status = 'pending'`,
-        [sessionId, email || null]
+        [sessionId, email || null, shippingCents ?? null, shippingMethod || null, shippingName || null, shippingAddress || null]
     );
 }
 

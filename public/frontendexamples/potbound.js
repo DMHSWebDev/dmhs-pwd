@@ -264,14 +264,24 @@ function renderReceipt(order) {
         line.append(el('span', '', `${item.quantity} × ${item.name}`), el('span', '', money(item.unitCents * item.quantity)));
         list.append(line);
     }
+    // Shipping is only known once Stripe confirms the order
+    const sums = [];
+    if (order.shippingCents !== null) {
+        for (const [label, cents] of [['Subtotal', order.subtotalCents], [order.shippingMethod || 'Shipping', order.shippingCents]]) {
+            const row = el('p', 'receipt-sum');
+            row.append(el('span', '', label), el('span', '', cents === 0 ? 'Free' : money(cents)));
+            sums.push(row);
+        }
+    }
     const total = el('p', 'receipt-total');
     total.append(el('span', '', 'Total'), el('strong', '', money(order.totalCents)));
+    const shipTo = order.shipTo ? [el('p', 'receipt-ship', `Shipping to ${order.shipTo}`)] : [];
 
     const note = el('p', 'receipt-note', order.status === 'paid'
-        ? 'On a real shop, a receipt would be emailed to you now and the order would show up in the owner’s dashboard.'
+        ? 'On a real shop, a receipt and tracking number would be emailed to you, and the order would show up in the owner’s dashboard.'
         : order.status === 'pending' ? 'This usually takes a few seconds.' : 'Nothing was charged. Your cart is still saved.');
 
-    receipt.replaceChildren(head, list, total, note);
+    receipt.replaceChildren(head, list, ...sums, total, ...shipTo, note);
 }
 
 async function startReceipt() {

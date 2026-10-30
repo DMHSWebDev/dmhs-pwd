@@ -266,7 +266,8 @@ h2 { font-size: clamp(2.4rem, 6vw, 4.4rem); }
   font-size: 12px;
   font-weight: 600;
 }
-.product-tag.sold { left: auto; right: 12px; background: var(--ink); color: var(--bg); }
+.product-tag.sold, .product-tag.low { left: auto; right: 12px; background: var(--ink); color: var(--bg); }
+.product-tag.low { background: var(--clay); }
 .product-info { flex: 1; padding: 16px 8px 14px; }
 .product-title {
   display: flex;

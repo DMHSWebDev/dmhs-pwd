@@ -53,6 +53,10 @@ let fulfillment = loadFulfillment();
 let products = [];
 const productById = id => products.find(product => product.id === id);
 
+// The most of one product a cart can hold: our limit, or what's in stock.
+// (stock is null for products the shop doesn't count.)
+const maxFor = product => product.stock === null ? MAX_QUANTITY : Math.min(MAX_QUANTITY, product.stock);
+
 // ===== Toast: a short message at the bottom of the screen =====
 const toast = document.querySelector('#toast');
 let toastTimer;
@@ -91,6 +95,7 @@ function productCard(product) {
     }
     if (product.tag) frame.append(el('span', 'product-tag', product.tag));
     if (product.soldOut) frame.append(el('span', 'product-tag sold', 'Sold out'));
+    else if (product.stock !== null && product.stock <= 3) frame.append(el('span', 'product-tag low', `Only ${product.stock} left`));
 
     const info = el('div', 'product-info');
     const title = el('p', 'product-title');
@@ -125,8 +130,10 @@ function renderFilters() {
 
 function addToCart(product) {
     const quantity = cart[product.id] || 0;
-    if (quantity >= MAX_QUANTITY) {
-        showToast(`You can buy up to ${MAX_QUANTITY} of each item.`);
+    if (quantity >= maxFor(product)) {
+        showToast(maxFor(product) < MAX_QUANTITY
+            ? `Only ${product.stock} ${product.name} left, and they're all in your cart.`
+            : `You can buy up to ${MAX_QUANTITY} of each item.`);
         return;
     }
     cart[product.id] = quantity + 1;
@@ -137,7 +144,7 @@ function addToCart(product) {
 
 function setQuantity(id, quantity) {
     if (quantity <= 0) delete cart[id];
-    else cart[id] = Math.min(quantity, MAX_QUANTITY);
+    else cart[id] = Math.min(quantity, maxFor(productById(id)));
     saveCart();
     renderCart();
 }
@@ -162,7 +169,7 @@ function cartLine(product, quantity) {
     const plus = el('button', 'icon-button', '+');
     plus.type = 'button';
     plus.setAttribute('aria-label', `One more ${product.name}`);
-    plus.disabled = quantity >= MAX_QUANTITY;
+    plus.disabled = quantity >= maxFor(product);
     plus.addEventListener('click', () => setQuantity(product.id, quantity + 1));
     stepper.append(minus, el('span', 'quantity', String(quantity)), plus);
 
@@ -182,6 +189,7 @@ function renderCart() {
         for (const id of Object.keys(cart)) {
             const product = productById(id);
             if (!product || product.soldOut) delete cart[id];
+            else if (cart[id] > maxFor(product)) cart[id] = maxFor(product); // stock went down since
         }
         saveCart();
     }

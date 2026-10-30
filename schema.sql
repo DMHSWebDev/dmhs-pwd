@@ -65,3 +65,7 @@ ALTER TABLE orders ADD COLUMN IF NOT EXISTS shipping_cents   integer;
 ALTER TABLE orders ADD COLUMN IF NOT EXISTS shipping_method  text;
 ALTER TABLE orders ADD COLUMN IF NOT EXISTS shipping_name    text;
 ALTER TABLE orders ADD COLUMN IF NOT EXISTS shipping_address jsonb;
+
+-- Inventory: true when this item's stock was held in Sanity at checkout,
+-- so we know to give it back if the checkout expires unpaid
+ALTER TABLE order_items ADD COLUMN IF NOT EXISTS held boolean NOT NULL DEFAULT false;

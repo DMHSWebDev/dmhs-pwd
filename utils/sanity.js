@@ -41,4 +41,32 @@ async function sanityQuery(query, params = {}, { fresh = false } = {}) {
     return result;
 }
 
-module.exports = { sanityQuery };
+// Changes content in Sanity, like lowering a product's stock. Needs a write
+// token (SANITY_WRITE_TOKEN), which must never reach the browser.
+// All the mutations in one call succeed or fail together.
+// Throws an error with .status 409 when a document changed since we read it.
+async function sanityMutate(mutations) {
+    if (!process.env.SANITY_WRITE_TOKEN) {
+        throw new Error('Missing SANITY_WRITE_TOKEN');
+    }
+
+    // visibility=sync: answer only once the change shows up in queries
+    const sanityUrl = `https://${process.env.SANITY_PROJECT_ID}.api.sanity.io/${API_VERSION}/data/mutate/${DATASET}?visibility=sync`;
+    const sanityResponse = await fetch(sanityUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${process.env.SANITY_WRITE_TOKEN}`
+        },
+        body: JSON.stringify({ mutations }),
+        signal: AbortSignal.timeout(8000)
+    });
+
+    if (!sanityResponse.ok) {
+        const err = new Error(`Sanity mutate error ${sanityResponse.status}`);
+        err.status = sanityResponse.status;
+        throw err;
+    }
+}
+
+module.exports = { sanityQuery, sanityMutate };

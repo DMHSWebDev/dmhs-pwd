@@ -1,6 +1,6 @@
 const express = require('express');
 const Stripe = require('stripe');
-const { sanityQuery } = require('../utils/sanity');
+const { sanityQuery, sanityMutate } = require('../utils/sanity');
 const { checkoutLimiter } = require('../middleware/limiters');
 const { writeLog } = require('../middleware/logger');
 const db = require('../db');
@@ -29,23 +29,31 @@ const PRODUCTS_QUERY = `*[_type == "product"] | order(order asc, name asc){
     tag,
     description,
     soldOut,
+    stock,
     "imageUrl": image.asset->url,
     "imageAlt": image.alt
 }`;
 
-// Only the products in this cart, read fresh from Sanity
+// Only the products in this cart, read fresh from Sanity. _rev is the
+// document's revision: it changes every time the document is edited.
 const CART_PRODUCTS_QUERY = `*[_type == "product" && _id in $ids]{
-    "id": _id, name, price, soldOut, "imageUrl": image.asset->url
+    "id": _id, "rev": _rev, name, price, soldOut, stock, "imageUrl": image.asset->url
 }`;
 
 const toCents = dollars => Math.round(dollars * 100);
+
+// A product with no stock number isn't counted (like a gift card).
+// One that is counted sells out at 0.
+const tracksStock = product => typeof product.stock === 'number';
+const isSoldOut = product => Boolean(product.soldOut) || (tracksStock(product) && product.stock <= 0);
 
 function cleanProduct(product) {
     return {
         ...product,
         tag: product.tag || '',
         description: product.description || '',
-        soldOut: Boolean(product.soldOut),
+        soldOut: isSoldOut(product),
+        stock: tracksStock(product) ? Math.max(product.stock, 0) : null,
         imageUrl: product.imageUrl ? product.imageUrl + '?w=800&auto=format' : null,
         imageAlt: product.imageAlt || ''
     };
@@ -122,6 +130,61 @@ async function recordPayment(sessionId) {
     });
 }
 
+// Looks up the real price and stock of everything in the cart and, if there
+// is enough, holds that stock by lowering it in Sanity. Returns { items },
+// or { error } with a message for the shopper.
+//
+// Two shoppers could check out the last plant at the same moment. So each
+// change says "only if this product hasn't changed since I read it"
+// (ifRevisionID). If one did change, Sanity refuses the whole change with a
+// 409, and we read the stock again and retry.
+async function priceAndHoldStock(cart) {
+    for (let attempt = 1; attempt <= 3; attempt++) {
+        const products = await sanityQuery(CART_PRODUCTS_QUERY, { ids: cart.map(item => item.id) }, { fresh: true });
+
+        const items = [];
+        const holds = [];
+        for (const { id, quantity } of cart) {
+            const product = products.find(p => p.id === id);
+            if (!product) return { error: 'An item in your cart is no longer for sale. Please remove it.' };
+            if (isSoldOut(product)) return { error: `Sorry, ${product.name} just sold out. Please remove it.` };
+            if (tracksStock(product) && product.stock < quantity) {
+                return { error: `Sorry, only ${product.stock} ${product.name} left. Please lower the quantity.` };
+            }
+
+            items.push({
+                productId: id,
+                name: product.name,
+                unitCents: toCents(product.price),
+                quantity,
+                imageUrl: product.imageUrl,
+                held: tracksStock(product)
+            });
+            if (tracksStock(product)) {
+                holds.push({ patch: { id, ifRevisionID: product.rev, dec: { stock: quantity } } });
+            }
+        }
+
+        if (holds.length === 0) return { items };
+        try {
+            await sanityMutate(holds); // all of the holds, or none of them
+            return { items };
+        } catch (err) {
+            if (err.status !== 409) throw err;
+            // Someone else changed one of these products. Read again.
+        }
+    }
+    return { error: 'Lots of people are checking out right now. Please try again in a moment.' };
+}
+
+// Puts held stock back, for a checkout that never got paid
+async function giveBackStock(items) {
+    const returns = items
+        .filter(item => item.held !== false) // rows from the database are all held
+        .map(item => ({ patch: { id: item.productId, inc: { stock: item.quantity } } }));
+    if (returns.length > 0) await sanityMutate(returns);
+}
+
 // The address of this site, for Stripe to send shoppers back to
 function siteOrigin(req) {
     const host = process.env.CANONICAL_HOST;
@@ -167,22 +230,18 @@ router.post('/checkout', checkoutLimiter, async (req, res) => {
     const { cart, fulfillment, error } = readCart(req.body);
     if (error) return res.status(400).json({ error });
 
-    // Look up the REAL name and price of each item on the server
-    let products;
+    // Look up the REAL name, price, and stock of each item on the server,
+    // and hold the stock while the shopper pays
+    let held;
     try {
-        products = await sanityQuery(CART_PRODUCTS_QUERY, { ids: cart.map(item => item.id) }, { fresh: true });
+        held = await priceAndHoldStock(cart);
     } catch (err) {
         console.error('CMS error:', err.message);
         return res.status(502).json({ error: 'Could not check prices right now. Please try again.' });
     }
+    if (held.error) return res.status(400).json({ error: held.error });
 
-    const items = [];
-    for (const { id, quantity } of cart) {
-        const product = products.find(p => p.id === id);
-        if (!product) return res.status(400).json({ error: 'An item in your cart is no longer for sale. Please remove it.' });
-        if (product.soldOut) return res.status(400).json({ error: `Sorry, ${product.name} just sold out. Please remove it.` });
-        items.push({ productId: id, name: product.name, unitCents: toCents(product.price), quantity, imageUrl: product.imageUrl });
-    }
+    const { items } = held;
     const totalCents = items.reduce((sum, item) => sum + item.unitCents * item.quantity, 0);
 
     let session;
@@ -201,12 +260,12 @@ router.post('/checkout', checkoutLimiter, async (req, res) => {
                     }
                 }
             })),
-            // Stripe swaps in the real session ID where {CHECKOUT_SESSION_ID} is
             // Pickup orders skip the address and shipping steps on Stripe's page
             ...(fulfillment === 'ship' && {
                 shipping_address_collection: { allowed_countries: ['US'] },
                 shipping_options: shippingOptions(totalCents)
             }),
+            // Stripe swaps in the real session ID where {CHECKOUT_SESSION_ID} is
             success_url: `${siteOrigin(req)}/frontendexamples/potbound-success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${siteOrigin(req)}/frontendexamples/potbound?checkout=canceled`,
             expires_at: Math.floor(Date.now() / 1000) + 30 * 60, // 30 minutes, Stripe's shortest
@@ -214,14 +273,18 @@ router.post('/checkout', checkoutLimiter, async (req, res) => {
         });
     } catch (err) {
         writeLog(`[${new Date().toISOString()}] STRIPE ERROR: ${err.message}`);
+        await giveBackStock(items).catch(stockErr => console.error('Could not give back stock:', stockErr.message));
         return res.status(502).json({ error: 'Could not start checkout. Please try again.' });
     }
 
     try {
         await db.addOrder({ sessionId: session.id, totalCents, items });
     } catch (err) {
-        // The unpaid Stripe session just expires on its own
         console.error('Could not save order:', err.message);
+        // Without an order, nothing would ever give this stock back, so do it
+        // now, and close the Stripe page so it can't be paid
+        await giveBackStock(items).catch(stockErr => console.error('Could not give back stock:', stockErr.message));
+        await stripe.checkout.sessions.expire(session.id).catch(() => {});
         return res.status(500).json({ error: 'Could not start checkout. Please try again.' });
     }
 
@@ -281,7 +344,8 @@ async function stripeWebhook(req, res) {
         if (event.type === 'checkout.session.completed') {
             await recordPayment(session.id);
         } else if (event.type === 'checkout.session.expired') {
-            await db.markOrderExpired(session.id);
+            // Abandoned checkout: put its held stock back on the shelf
+            await db.expireOrder(session.id, giveBackStock);
         }
     } catch (err) {
         // A 500 tells Stripe to try again later

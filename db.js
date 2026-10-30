@@ -112,9 +112,9 @@ async function addOrder({ sessionId, totalCents, items }) {
         );
         for (const item of items) {
             await client.query(
-                `INSERT INTO order_items (order_id, product_id, name, unit_cents, quantity)
-                 VALUES ($1, $2, $3, $4, $5)`,
-                [rows[0].id, item.productId, item.name, item.unitCents, item.quantity]
+                `INSERT INTO order_items (order_id, product_id, name, unit_cents, quantity, held)
+                 VALUES ($1, $2, $3, $4, $5, $6)`,
+                [rows[0].id, item.productId, item.name, item.unitCents, item.quantity, Boolean(item.held)]
             );
         }
         await client.query('COMMIT');
@@ -150,15 +150,37 @@ async function markOrderPaid(sessionId, { email, shippingCents, shippingMethod, 
     );
 }
 
-async function markOrderExpired(sessionId) {
-    await pool.query(
-        `UPDATE orders SET status = 'expired' WHERE stripe_session_id = $1 AND status = 'pending'`,
-        [sessionId]
-    );
+// Marks a pending order expired and hands its held items to giveBack(items),
+// which returns them to stock. Both happen in one transaction: if giving the
+// stock back fails, the order stays pending so Stripe's retry can try again.
+// A repeated message finds the order already expired and gives nothing back.
+async function expireOrder(sessionId, giveBack) {
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+        const { rows } = await client.query(
+            `UPDATE orders SET status = 'expired' WHERE stripe_session_id = $1 AND status = 'pending'
+             RETURNING id`,
+            [sessionId]
+        );
+        if (rows[0]) {
+            const items = await client.query(
+                `SELECT product_id AS "productId", quantity FROM order_items WHERE order_id = $1 AND held`,
+                [rows[0].id]
+            );
+            if (items.rows.length > 0) await giveBack(items.rows);
+        }
+        await client.query('COMMIT');
+    } catch (err) {
+        await client.query('ROLLBACK');
+        throw err;
+    } finally {
+        client.release();
+    }
 }
 
 module.exports = {
-    addOrder, getOrderBySessionId, markOrderPaid, markOrderExpired,
+    addOrder, getOrderBySessionId, markOrderPaid, expireOrder,
     getAllEntries, getEntryById, addEntry, updateEntry, deleteEntry,
     getUserByUsername, addUser, updateUserPassword,
     pool // shared with the session store in server.js

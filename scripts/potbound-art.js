@@ -126,12 +126,16 @@ draw.mister = () => `<ellipse cx="400" cy="720" rx="140" ry="14" fill="${C.ink}"
 <g fill="${C.ink}" opacity=".35">${[[240, 320, 6], [215, 300, 5], [225, 345, 4], [190, 325, 5], [200, 280, 3], [175, 355, 3]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}"/>`).join('')}</g>`;
 
 // ----- Products -----
+// How many of each are in stock. The fiddle leaf fig starts sold out, and
+// the monstera and string of pearls are low, to show off those labels.
+const STOCK = { snake: 12, pothos: 20, monstera: 3, zz: 8, fiddle: 0, pearls: 2, pot: 25, mister: 6 };
+
 const PRODUCTS = [
   ['snake', 'Snake plant', 'Plants', 28, 'Low light', 'Stands up straight, forgives forgotten waterings, and cleans the air.', C.sage, 'A tall snake plant with striped, yellow-edged leaves in a terracotta pot'],
   ['pothos', 'Golden pothos', 'Plants', 18, 'Beginner', 'Trailing vines that grow fast and tell you when they’re thirsty.', C.butter, 'A golden pothos with trailing vines spilling over a cream pot'],
   ['monstera', 'Monstera', 'Plants', 45, 'Statement', 'Big split leaves that make any corner feel like a jungle.', C.sky, 'A monstera with three large split leaves in a terracotta pot'],
   ['zz', 'ZZ plant', 'Plants', 32, 'Low light', 'Glossy leaves that look fake but aren’t. Water once a month.', C.blush, 'A ZZ plant with upright stems of glossy oval leaves in a black pot'],
-  ['fiddle', 'Fiddle leaf fig', 'Plants', 55, 'Bright light', 'The tall, dramatic one. Likes a sunny window and no moving around.', C.sand, 'A fiddle leaf fig with large violin-shaped leaves in a cream pot', true],
+  ['fiddle', 'Fiddle leaf fig', 'Plants', 55, 'Bright light', 'The tall, dramatic one. Likes a sunny window and no moving around.', C.sand, 'A fiddle leaf fig with large violin-shaped leaves in a cream pot'],
   ['pearls', 'String of pearls', 'Plants', 22, 'Pet caution', 'Strands of little green beads that hang over the edge of a shelf.', C.lime, 'A string of pearls plant with beaded strands hanging from a terracotta pot'],
   ['pot', 'Terracotta pot set', 'Pots & tools', 12, 'Set of 2', 'Classic clay pots with drainage holes and a matching saucer.', C.sky, 'Two stacked terracotta pots on a saucer'],
   ['mister', 'Brass plant mister', 'Pots & tools', 16, 'Gift idea', 'A fine mist for tropical plants that like a little humidity.', C.sand, 'A brass plant mister spraying a fine mist']
@@ -155,10 +159,10 @@ ${leaf(32, 26, 14, -55, C.lime, 0.5)}${leaf(32, 22, 12, 50, C.lime, 0.5)}
 
 // ----- Sample content for Sanity -----
 // IDs use dashes, not dots: Sanity hides documents with a dot in the ID from public queries
-const docs = PRODUCTS.map(([key, name, category, price, tag, description, , alt, soldOut = false], i) => ({
+const docs = PRODUCTS.map(([key, name, category, price, tag, description, , alt], i) => ({
   _id: `product-${key}`,
   _type: 'product',
-  name, category, price, tag, description, soldOut, order: i,
+  name, category, price, tag, description, soldOut: false, stock: STOCK[key], order: i,
   image: { _type: 'image', _sanityAsset: `image@file://${path.join(SEED, `${key}.png`)}`, alt }
 }));
 fs.writeFileSync(path.join(SEED, 'seed.ndjson'), docs.map(doc => JSON.stringify(doc)).join('\n') + '\n');

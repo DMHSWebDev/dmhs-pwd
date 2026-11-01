@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "build": "node scripts/setup-db.js",
-    "db:import": "node scripts/setup-db.js --import"
+    "build": "node scripts/setup-db.js"
   },
   "keywords": [],
   "author": "",
@@ -16,8 +15,6 @@
   "dependencies": {
     "@neon/config": "^1.9.4",
     "@neon/env": "^1.6.5",
-    "bad-words": "^4.1.5",
-    "bcryptjs": "^3.0.3",
     "connect-pg-simple": "^10.0.0",
     "dotenv": "^18.0.2",
     "express": "^5.2.1",

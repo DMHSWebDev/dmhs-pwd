@@ -50,14 +50,6 @@
             <section class="card-section" aria-labelledby="live-heading">
                 <h2 class="section-title" id="live-heading">Live projects</h2>
                 <nav class="links project-links" aria-label="Projects">
-                    <a class="link-card" href="/guestbook">
-                        <span class="link-title">Guestbook</span>
-                        <span class="link-tag">shared messages &middot; login</span>
-                    </a>
-                    <a class="link-card" href="/space">
-                        <span class="link-title">NASA Space</span>
-                        <span class="link-tag">picture of the day</span>
-                    </a>
                     <a class="link-card" href="/frontendexamples/tidepool">
                         <span class="link-title">Showcase Example</span>
                         <span class="link-tag">tidepool print studio</span>
@@ -76,27 +68,6 @@
             <section class="card-section" id="server-extensions" aria-labelledby="server-extensions-heading">
                 <h2 class="section-title" id="server-extensions-heading">Server extensions</h2>
                 <div class="feature-groups">
-                    <section class="feature-group" aria-labelledby="auth-extensions-heading">
-                        <h3 id="auth-extensions-heading">Authentication and Access</h3>
-                        <ul class="tier-features">
-                            <li>Password-based login checked against a server-side environment variable</li>
-                            <li>Session-based authentication with optional seven-day "Remember me"</li>
-                            <li>Logout destroys the active session</li>
-                            <li>Dashboard, guestbook page, and guestbook API require login</li>
-                            <li>Login status endpoint for the frontend</li>
-                        </ul>
-                    </section>
-
-                    <section class="feature-group" aria-labelledby="guestbook-extensions-heading">
-                        <h3 id="guestbook-extensions-heading">Guestbook API</h3>
-                        <ul class="tier-features">
-                            <li>Guestbook entries persist in a JSON data file</li>
-                            <li>Authenticated endpoints list, add, and clear entries</li>
-                            <li>Validates names and messages, normalizes whitespace, and filters profanity</li>
-                            <li>Each entry receives a unique ID and timestamp; storage keeps the latest 50</li>
-                        </ul>
-                    </section>
-
                     <section class="feature-group" aria-labelledby="operations-extensions-heading">
                         <h3 id="operations-extensions-heading">Monitoring and Request Controls</h3>
                         <ul class="tier-features">

@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 // Stop immediately if any required setting is missing
-const REQUIRED_ENV = ['SESSION_SECRET', 'SANITY_PROJECT_ID'];
+const REQUIRED_ENV = ['SESSION_SECRET', 'SANITY_PROJECT_ID', 'SMTP_HOST', 'SMTP_USER', 'SMTP_PASS', 'CONTACT_TO'];
 for (const name of REQUIRED_ENV) {
     if (!process.env[name]) {
         console.error(`Missing ${name} in .env (or in Render's Environment settings)`);

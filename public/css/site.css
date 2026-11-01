@@ -262,7 +262,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 48px;
-  padding: 8vh 16px;
+  padding: 48px 16px 8vh;
 }
 
 .wrap {
@@ -539,6 +539,14 @@ a.link-card:focus-visible {
   color: var(--dim);
 }
 .tier-fit span { color: var(--fg); }
+.tier-cost { margin-top: 6px; }
+.tier-cost a { color: var(--accent); text-underline-offset: 3px; }
+
+/* Running costs, below the packages */
+.costs { margin-bottom: 28px; }
+.costs .about-grid { margin-top: 20px; }
+.costs .about-card p + .tier-features,
+.costs .about-card .tier-features + p { margin-top: 12px; }
 
 .tier-link {
   margin-top: 16px;
@@ -827,6 +835,63 @@ main:focus { outline: none; }
 /* Program description under the home page title */
 .hero .lede { margin: -16px 0 24px; }
 
+/* Home page hero: Doherty's front entrance as a full-width band right
+   under the navbar. The text lines up with the cards below it. The fade is
+   always dark, so this band keeps the dark-theme colors in light mode too
+   (light text on a dark photo). */
+.hero-band {
+  --fg: #f3ede5;
+  --dim: #cfc5bc;            /* 9:1 on the darkest part of the fade */
+  --accent: #c99700;
+  --accent-2: #c4566a;
+  --line: rgba(255, 255, 255, 0.22);
+  --accent-line: rgba(201, 151, 0, 0.5);
+  --accent-soft: rgba(201, 151, 0, 0.1);
+  position: relative;
+  z-index: 2;
+  padding: 64px 16px 56px;
+  border-bottom: 1px solid var(--line);
+  /* The entrance is in the middle of the photo, so the photo starts partway
+     across (its left edge at 50vw - 394px, or 142px on narrow screens) to
+     put the doors just right of the text column, which ends near 50% + 80px
+     (616px on narrow screens). vw, not %: a % in background-position is a
+     share of the leftover space, not of the band. Solid dark covers the
+     empty strip on the left, then fades out over the photo. */
+  background:
+    linear-gradient(90deg,
+      #0b0809 0%,
+      #0b0809 max(182px, calc(50% - 354px)),
+      rgba(11, 8, 9, 0.86) max(640px, calc(50% + 100px)),
+      rgba(11, 8, 9, 0.2) max(880px, calc(50% + 340px)),
+      rgba(11, 8, 9, 0.1) 100%),
+    url("/assets/doherty.jpg") max(142px, calc(50vw - 394px)) 62% / auto 120% no-repeat,
+    #0b0809;
+}
+.hero-inner {
+  width: min(1040px, 100%);
+  margin: 0 auto;
+  padding: 0 40px;           /* same as the cards below, so edges line up */
+}
+.hero-inner > * { max-width: 560px; }
+.hero-band .periods { margin-bottom: 32px; }
+.hero-band .link-card { background: rgba(11, 8, 9, 0.45); }
+.hero-band a.link-card:hover,
+.hero-band a.link-card:focus-visible { background: rgba(11, 8, 9, 0.65); }
+
+/* Phones: the text covers the whole photo, so darken it evenly */
+@media (max-width: 760px) {
+  .hero-band {
+    padding: 40px 16px 36px;
+    background:
+      linear-gradient(rgba(11, 8, 9, 0.8), rgba(11, 8, 9, 0.9)),
+      url("/assets/doherty.jpg") 50% 60% / cover no-repeat,
+      #0b0809;
+  }
+}
+@media (max-width: 480px) {
+  .hero-inner { padding: 0 20px; }
+}
+
 /* ==========================================
    ABOUT THE PROGRAM (home page)
    ========================================== */
@@ -898,6 +963,7 @@ select.input { cursor: pointer; }
   gap: 28px;
 }
 .footer-about p { margin: 0; max-width: 46ch; }
+.footer-about .footer-a11y { margin-top: 10px; }
 .footer-name {
   margin-bottom: 8px !important;
   color: var(--fg);

@@ -101,13 +101,13 @@
 
     <header class="site-nav" id="site-nav"></header>
 
-    <div class="page">
-        <main class="wrap">
-            <header class="brand">
-                <span class="prompt">dmhs@pwd</span><span class="colon">:</span><span class="path">~</span><span class="dollar">$</span>
-            </header>
+    <main>
+        <section class="hero-band">
+            <div class="hero hero-inner">
+                <header class="brand">
+                    <span class="prompt">dmhs@pwd</span><span class="colon">:</span><span class="path">~</span><span class="dollar">$</span>
+                </header>
 
-            <section class="hero">
                 <p class="kicker">Doherty Memorial High School</p>
                 <h1 class="title">Programming &amp; Web Development</h1>
                 <p class="lede">
@@ -129,180 +129,207 @@
                     <span class="chip">Periods 2/3</span>
                     <span class="chip">Periods 6/7</span>
                 </div>
+
+                <nav class="links" aria-label="Site sections">
+                    <a class="link-card" href="#services">
+                        <span class="link-title">Web Services</span>
+                        <span class="link-tag">free &middot; see below &darr;</span>
+                    </a>
+                    <a class="link-card" href="#about">
+                        <span class="link-title">About the Program</span>
+                        <span class="link-tag">chapter 74 cte &darr;</span>
+                    </a>
+                    <div class="link-card disabled">
+                        <span class="link-title">Student Sites</span>
+                        <span class="link-tag">coming soon</span>
+                    </div>
+                </nav>
+
+                <footer class="footer">
+                    <span>&#47;&#47; more soon</span>
+                </footer>
+            </div>
+        </section>
+
+        <div class="page">
+            <section class="wrap services about" id="about" aria-labelledby="about-title">
+                <header class="brand">
+                    <span class="prompt">dmhs@pwd</span><span class="colon">:</span><span class="path">~/about</span><span class="dollar">$</span>
+                </header>
+
+                <div class="services-intro">
+                    <p class="kicker">About the program</p>
+                    <h2 class="title" id="about-title">A state-approved Chapter 74 CTE program</h2>
+                    <p class="lede">
+                        Programming &amp; Web Development is one of
+                        <a href="https://www.worcesterschools.org/o/dmhs/page/doherty-highs-chapter-74-cte-programs/">Doherty Memorial High School&rsquo;s Chapter 74 Career &amp; Technical Education programs</a>,
+                        approved by the Massachusetts Department of Elementary and Secondary Education (DESE)
+                        and offered through <a href="https://www.worcesterschools.org/">Worcester Public Schools</a>.
+                    </p>
+                    <p class="lede">
+                        Our coursework follows the state&rsquo;s
+                        <a href="https://www.doe.mass.edu/ccte/frameworks/program/web-development/default.html">Programming and Web Development framework</a>,
+                        part of the Information Technology Services career cluster. Students earn their high
+                        school diploma while building the skills that colleges and employers look for, and
+                        they practice them on real projects for real clients.
+                    </p>
+                </div>
+
+                <div class="about-grid">
+                    <article class="about-card">
+                        <h3>What students learn</h3>
+                        <ul class="tier-features">
+                            <li>HTML, CSS, and JavaScript</li>
+                            <li>Server programming with Node.js and Express</li>
+                            <li>Responsive, accessible web design</li>
+                            <li>Graphic design and user experience (UX)</li>
+                            <li>Databases, APIs, and working with data</li>
+                            <li>Cybersecurity and safe coding habits</li>
+                        </ul>
+                    </article>
+
+                    <article class="about-card">
+                        <h3>Real-world experience</h3>
+                        <ul class="tier-features">
+                            <li>Free websites for Worcester businesses, nonprofits, and clubs</li>
+                            <li>Working with clients from first meeting to launch day</li>
+                            <li>Team projects with version control (Git and GitHub)</li>
+                            <li>A professional portfolio of live, published work</li>
+                        </ul>
+                    </article>
+
+                    <article class="about-card">
+                        <h3>Where it leads</h3>
+                        <ul class="tier-features">
+                            <li>College programs in computer science, IT, and design</li>
+                            <li>Careers like web developer, software developer, and UX designer</li>
+                            <li>IT support, cybersecurity, and digital media roles</li>
+                        </ul>
+                    </article>
+                </div>
+
+                <p class="lede">
+                    Interested in joining? Learn more about
+                    <a href="https://www.worcesterschools.org/o/dmhs/page/engineering-and-technology-academy-eta-copy-copy-copy/">Programming &amp; Web Development at Doherty</a>
+                    on the Worcester Public Schools website.
+                </p>
             </section>
 
-            <nav class="links" aria-label="Site sections">
-                <a class="link-card" href="#services">
-                    <span class="link-title">Web Services</span>
-                    <span class="link-tag">free &middot; see below &darr;</span>
-                </a>
-                <a class="link-card" href="#about">
-                    <span class="link-title">About the Program</span>
-                    <span class="link-tag">chapter 74 cte &darr;</span>
-                </a>
-                <div class="link-card disabled">
-                    <span class="link-title">Student Sites</span>
-                    <span class="link-tag">coming soon</span>
+            <section class="wrap services" id="services" aria-labelledby="services-title">
+                <header class="brand">
+                    <span class="prompt">dmhs@pwd</span><span class="colon">:</span><span class="path">~/services</span><span class="dollar">$</span>
+                </header>
+
+                <div class="services-intro">
+                    <p class="kicker">Free for our community</p>
+                    <h2 class="title" id="services-title">Free Web Design Services</h2>
+                    <p class="lede">
+                        Our students design and build real websites for local businesses, nonprofits,
+                        clubs, and people in the Worcester community &mdash; at no cost. You get a website. They get
+                        real-world experience for their portfolios.
+                    </p>
                 </div>
-                <div class="link-card disabled">
-                    <span class="link-title">Classroom Chat</span>
-                    <span class="link-tag">coming soon</span>
+
+                <div class="tiers">
+                    <article class="tier">
+                        <p class="tier-step">01</p>
+                        <h3 class="tier-name">Showcase <span class="tier-price">Free</span></h3>
+                        <p class="tier-pitch">A clean, professional website that tells people who you are and what you do.</p>
+                        <ul class="tier-features">
+                            <li>A few pages, like Home, About, and Contact</li>
+                            <li>Looks great on phones, tablets, and computers</li>
+                            <li>A gallery to show off your photos or work</li>
+                            <li>Links to your email, phone, and social media</li>
+                            <li>Loads fast so visitors don&rsquo;t leave</li>
+                        </ul>
+                        <p class="tier-fit"><span>Great for:</span> portfolios, r&eacute;sum&eacute;s, artists, clubs, events</p>
+                        <p class="tier-fit tier-cost"><span>Running costs:</span> about $10&ndash;20 a year for your web address. <a href="#costs">Details</a></p>
+                        <a class="tier-link" href="/frontendexamples/tidepool">See an example site <span aria-hidden="true">&rarr;</span></a>
+                        <a class="tier-link" href="/request?tier=Showcase">Request Showcase <span aria-hidden="true">&rarr;</span></a>
+                    </article>
+
+                    <article class="tier featured">
+                        <p class="tier-step">02 <span class="tier-badge">Recommended</span></p>
+                        <h3 class="tier-name">Storyteller <span class="tier-price">Free</span></h3>
+                        <p class="tier-pitch">Everything in Showcase, plus a site you can update yourself. No tech skills needed.</p>
+                        <ul class="tier-features">
+                            <li>Everything in Showcase</li>
+                            <li>A blog or news page to share updates</li>
+                            <li>A simple dashboard to add posts, photos, and changes yourself</li>
+                            <li>A contact form that sends messages straight to you</li>
+                            <li>A sign-up list so customers can hear from you</li>
+                            <li>A guestbook where visitors can leave kind words</li>
+                            <li>Menus, services, or products you can change anytime</li>
+                        </ul>
+                        <p class="tier-fit"><span>Great for:</span> small businesses, restaurants, coaches, nonprofits</p>
+                        <p class="tier-fit tier-cost"><span>Running costs:</span> about $100&ndash;300 a year for your web address and hosting. <a href="#costs">Details</a></p>
+                        <a class="tier-link" href="/frontendexamples/emberoat">See an example site <span aria-hidden="true">&rarr;</span></a>
+                        <a class="tier-link" href="/request?tier=Storyteller">Request Storyteller <span aria-hidden="true">&rarr;</span></a>
+                    </article>
+
+                    <article class="tier">
+                        <p class="tier-step">03</p>
+                        <h3 class="tier-name">Storefront <span class="tier-price">Free</span></h3>
+                        <p class="tier-pitch">A complete online business. Sell products, take payments, and let customers sign in.</p>
+                        <ul class="tier-features">
+                            <li>Everything in Storyteller</li>
+                            <li>An online store with a shopping cart</li>
+                            <li>Secure checkout that accepts credit and debit cards</li>
+                            <li>Customer accounts with log-in and order history</li>
+                            <li>Add products, prices, and photos from your dashboard</li>
+                            <li>Members-only pages for signed-in customers</li>
+                            <li>A message board where your community can post and chat</li>
+                        </ul>
+                        <p class="tier-fit"><span>Great for:</span> shops, makers, merch, bakeries, ticket sales</p>
+                        <p class="tier-fit tier-cost"><span>Running costs:</span> about $100&ndash;300 a year, plus card fees on each sale. <a href="#costs">Details</a></p>
+                        <a class="tier-link" href="/frontendexamples/potbound">See an example site <span aria-hidden="true">&rarr;</span></a>
+                        <a class="tier-link" href="/request?tier=Storefront">Request Storefront <span aria-hidden="true">&rarr;</span></a>
+                    </article>
                 </div>
-                <div class="link-card disabled">
-                    <span class="link-title">Student Games</span>
-                    <span class="link-tag">coming soon</span>
+
+                <div class="costs" id="costs" aria-labelledby="costs-title">
+                    <h3 class="section-title" id="costs-title">What it costs to keep your site running</h3>
+                    <p class="lede">
+                        We build your website for free. Like any website, it then needs a web address and a
+                        place to live online, and those come with small costs. Here is what to plan for.
+                    </p>
+
+                    <div class="about-grid">
+                        <article class="about-card">
+                            <h3>Your first year</h3>
+                            <p>Building your site is free, and so is our help for the first year after launch. Our students fix problems and make updates for you. Help follows the school calendar, so summer requests may wait until fall.</p>
+                        </article>
+
+                        <article class="about-card">
+                            <h3>Running costs</h3>
+                            <ul class="tier-features">
+                                <li>Web address (like yourname.com): about $10&ndash;20 a year</li>
+                                <li>Hosting: often free for a Showcase site, about $7&ndash;25 a month for a site with a dashboard or store</li>
+                                <li>Card payments (Storefront): about 2.9% + 30&cent; per sale, charged by the payment company</li>
+                            </ul>
+                            <p>Most accounts are set up in your name, so you stay in control of your site. We&rsquo;ll go over how hosting is set up and paid for when we plan your site.</p>
+                        </article>
+
+                        <article class="about-card">
+                            <h3>After the first year</h3>
+                            <p>Want us to keep helping? Our yearly support plan covers fixes and updates all year for a yearly fee. Ask about it when you request your site. Prefer to run it yourself? We&rsquo;ll show you how before your first year ends.</p>
+                        </article>
+                    </div>
                 </div>
-            </nav>
 
-            <footer class="footer">
-                <span>&#47;&#47; more soon</span>
-            </footer>
-        </main>
+                <div class="services-cta">
+                    <a class="link-card" href="/request">
+                        <span class="link-title">Request a website</span>
+                        <span class="link-tag">free &middot; takes 2 minutes &rarr;</span>
+                    </a>
+                </div>
 
-        <section class="wrap services about" id="about" aria-labelledby="about-title">
-            <header class="brand">
-                <span class="prompt">dmhs@pwd</span><span class="colon">:</span><span class="path">~/about</span><span class="dollar">$</span>
-            </header>
-
-            <div class="services-intro">
-                <p class="kicker">About the program</p>
-                <h2 class="title" id="about-title">A state-approved Chapter 74 CTE program</h2>
-                <p class="lede">
-                    Programming &amp; Web Development is one of
-                    <a href="https://www.worcesterschools.org/o/dmhs/page/doherty-highs-chapter-74-cte-programs/">Doherty Memorial High School&rsquo;s Chapter 74 Career &amp; Technical Education programs</a>,
-                    approved by the Massachusetts Department of Elementary and Secondary Education (DESE)
-                    and offered through <a href="https://www.worcesterschools.org/">Worcester Public Schools</a>.
-                </p>
-                <p class="lede">
-                    Our coursework follows the state&rsquo;s
-                    <a href="https://www.doe.mass.edu/ccte/frameworks/program/web-development/default.html">Programming and Web Development framework</a>,
-                    part of the Information Technology Services career cluster. Students earn their high
-                    school diploma while building the skills that colleges and employers look for, and
-                    they practice them on real projects for real clients.
-                </p>
-            </div>
-
-            <div class="about-grid">
-                <article class="about-card">
-                    <h3>What students learn</h3>
-                    <ul class="tier-features">
-                        <li>HTML, CSS, and JavaScript</li>
-                        <li>Server programming with Node.js and Express</li>
-                        <li>Responsive, accessible web design</li>
-                        <li>Graphic design and user experience (UX)</li>
-                        <li>Databases, APIs, and working with data</li>
-                        <li>Cybersecurity and safe coding habits</li>
-                    </ul>
-                </article>
-
-                <article class="about-card">
-                    <h3>Real-world experience</h3>
-                    <ul class="tier-features">
-                        <li>Free websites for Worcester businesses, nonprofits, and clubs</li>
-                        <li>Working with clients from first meeting to launch day</li>
-                        <li>Team projects with version control (Git and GitHub)</li>
-                        <li>A professional portfolio of live, published work</li>
-                    </ul>
-                </article>
-
-                <article class="about-card">
-                    <h3>Where it leads</h3>
-                    <ul class="tier-features">
-                        <li>College programs in computer science, IT, and design</li>
-                        <li>Careers like web developer, software developer, and UX designer</li>
-                        <li>IT support, cybersecurity, and digital media roles</li>
-                    </ul>
-                </article>
-            </div>
-
-            <p class="lede">
-                Interested in joining? Learn more about
-                <a href="https://www.worcesterschools.org/o/dmhs/page/engineering-and-technology-academy-eta-copy-copy-copy/">Programming &amp; Web Development at Doherty</a>
-                on the Worcester Public Schools website.
-            </p>
-        </section>
-
-        <section class="wrap services" id="services" aria-labelledby="services-title">
-            <header class="brand">
-                <span class="prompt">dmhs@pwd</span><span class="colon">:</span><span class="path">~/services</span><span class="dollar">$</span>
-            </header>
-
-            <div class="services-intro">
-                <p class="kicker">Free for our community</p>
-                <h2 class="title" id="services-title">Free Web Design Services</h2>
-                <p class="lede">
-                    Our students design and build real websites for local businesses, nonprofits,
-                    clubs, and people in the Worcester community &mdash; at no cost. You get a website. They get
-                    real-world experience for their portfolios.
-                </p>
-            </div>
-
-            <div class="tiers">
-                <article class="tier">
-                    <p class="tier-step">01</p>
-                    <h3 class="tier-name">Showcase <span class="tier-price">Free</span></h3>
-                    <p class="tier-pitch">A clean, professional website that tells people who you are and what you do.</p>
-                    <ul class="tier-features">
-                        <li>A few pages, like Home, About, and Contact</li>
-                        <li>Looks great on phones, tablets, and computers</li>
-                        <li>A gallery to show off your photos or work</li>
-                        <li>Links to your email, phone, and social media</li>
-                        <li>Loads fast so visitors don&rsquo;t leave</li>
-                    </ul>
-                    <p class="tier-fit"><span>Great for:</span> portfolios, r&eacute;sum&eacute;s, artists, clubs, events</p>
-                    <a class="tier-link" href="/frontendexamples/tidepool">See an example site <span aria-hidden="true">&rarr;</span></a>
-                    <a class="tier-link" href="/request?tier=Showcase">Request Showcase <span aria-hidden="true">&rarr;</span></a>
-                </article>
-
-                <article class="tier featured">
-                    <p class="tier-step">02 <span class="tier-badge">Recommended</span></p>
-                    <h3 class="tier-name">Storyteller <span class="tier-price">Free</span></h3>
-                    <p class="tier-pitch">Everything in Showcase, plus a site you can update yourself. No tech skills needed.</p>
-                    <ul class="tier-features">
-                        <li>Everything in Showcase</li>
-                        <li>A blog or news page to share updates</li>
-                        <li>A simple dashboard to add posts, photos, and changes yourself</li>
-                        <li>A contact form that sends messages straight to you</li>
-                        <li>A sign-up list so customers can hear from you</li>
-                        <li>A guestbook where visitors can leave kind words</li>
-                        <li>Menus, services, or products you can change anytime</li>
-                    </ul>
-                    <p class="tier-fit"><span>Great for:</span> small businesses, restaurants, coaches, nonprofits</p>
-                    <a class="tier-link" href="/frontendexamples/emberoat">See an example site <span aria-hidden="true">&rarr;</span></a>
-                    <a class="tier-link" href="/request?tier=Storyteller">Request Storyteller <span aria-hidden="true">&rarr;</span></a>
-                </article>
-
-                <article class="tier">
-                    <p class="tier-step">03</p>
-                    <h3 class="tier-name">Storefront <span class="tier-price">Free</span></h3>
-                    <p class="tier-pitch">A complete online business. Sell products, take payments, and let customers sign in.</p>
-                    <ul class="tier-features">
-                        <li>Everything in Storyteller</li>
-                        <li>An online store with a shopping cart</li>
-                        <li>Secure checkout that accepts credit and debit cards</li>
-                        <li>Customer accounts with log-in and order history</li>
-                        <li>Add products, prices, and photos from your dashboard</li>
-                        <li>Members-only pages for signed-in customers</li>
-                        <li>A message board where your community can post and chat</li>
-                    </ul>
-                    <p class="tier-fit"><span>Great for:</span> shops, makers, merch, bakeries, ticket sales</p>
-                    <a class="tier-link" href="/frontendexamples/potbound">See an example site <span aria-hidden="true">&rarr;</span></a>
-                    <a class="tier-link" href="/request?tier=Storefront">Request Storefront <span aria-hidden="true">&rarr;</span></a>
-                </article>
-            </div>
-
-            <div class="services-cta">
-                <a class="link-card" href="/request">
-                    <span class="link-title">Request a website</span>
-                    <span class="link-tag">free &middot; takes 2 minutes &rarr;</span>
-                </a>
-            </div>
-
-            <footer class="footer">
-                <span>&#47;&#47; the fine print: building your site is free. A custom web address (like yourname.com) or card payments come with small fees, paid directly to those companies.</span>
-            </footer>
-        </section>
-    </div>
+                <footer class="footer">
+                    <span>&#47;&#47; the fine print: building your site is free. Prices above are estimates from the companies that provide these services and can change. We&rsquo;ll confirm your costs before we start.</span>
+                </footer>
+            </section>
+        </div>
+    </main>
 
     <footer class="site-footer" id="site-footer"></footer>
 

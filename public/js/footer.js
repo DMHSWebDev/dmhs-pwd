@@ -17,6 +17,12 @@ document.querySelector('#site-footer').innerHTML = `
                 Doherty Memorial High School, part of Worcester Public Schools in
                 Worcester, Massachusetts.
             </p>
+            <p class="footer-a11y">
+                Every site we build is designed to be accessible, following the
+                <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">WCAG 2.2 AA</a>
+                guidelines so people using keyboards, screen readers and other
+                assistive technology can use it too.
+            </p>
         </div>
 
         <nav class="footer-col" aria-label="Site">
@@ -26,7 +32,7 @@ document.querySelector('#site-footer').innerHTML = `
                 <li><a href="/#about">About the program</a></li>
                 <li><a href="/#services">Free web services</a></li>
                 <li><a href="/request">Request a website</a></li>
-                <li><a href="/projects">Student projects</a></li>
+                <li><a href="/projects">Demo projects</a></li>
             </ul>
         </nav>
 
